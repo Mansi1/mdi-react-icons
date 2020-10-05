@@ -1,0 +1,45 @@
+{
+  "name": "mdi-react-icons",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "@material-ui",
+    "@material-ui",
+    "@material-ui/icons",
+    "icons"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mansi1/mdi-react-icons.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "npx st-rm-rf dist src/icons src/assets && ts-node --project tsconfig.node.json generator/generate.ts",
+    "build": "tsc",
+    "postbuild" : "npx st-cp package.json README.md LICENSE src/assets dist"
+  },
+  "author": "Michael Mannseicher",
+  "bugs": {
+    "url": "https://github.com/Mansi1/mdi-react-icons/issues"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/mustache": "^4.0.1",
+    "@types/node": "^14.11.2",
+    "@types/react": "^16.9.50",
+    "@types/xml2js": "^0.4.5",
+    "mustache": "^4.0.1",
+    "node": "^14.13.0",
+    "react": "15.6.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3",
+    "xml2js": "^0.4.23"
+  }
+}

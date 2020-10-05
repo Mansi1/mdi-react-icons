@@ -1,0 +1,13 @@
+import React from "react";
+import createSvgIcon from '@material-ui/core/utils/createSvgIcon';
+
+/**
+ * author: {{{author}}}
+ * id {{{id}}}
+ * name {{{name}}}
+ * version: {{{version}}}
+ * url {{{url}}}
+ * tags{{#tags}}
+ * - {{{.}}} {{/tags}}
+ */
+export const {{iconClassName}} = createSvgIcon(<>{{#paths}}<path d="{{{.}}}" />{{/paths}}</>, '{{iconClassName}}');
