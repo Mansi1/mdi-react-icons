@@ -1,13 +1,24 @@
 {
-  "name": "mdi-react-icons",
+  "name": "@material-ui/icons-v2",
   "version": "0.1.0",
-  "scripts": {
-    "clean": "npx st-rm-rf dist src",
-    "prebuild-mat": "yarn clean",
-    "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts && tsc",
-    "postbuild-mat" : "npx st-cp LICENSE src/assets dist && npx st-cp package-material-ui.json dist/package.json && npx st-cp README-material-ui.md dist/README.md "
+  "publishConfig": {
+    "access": "public"
   },
+  "keywords": [
+    "@material-ui",
+    "@material-ui",
+    "@material-ui/icons",
+    "icons"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mansi1/mdi-react-icons.git"
+  },
+  "license": "MIT",
   "author": "Michael Mannseicher",
+  "bugs": {
+    "url": "https://github.com/Mansi1/mdi-react-icons/issues"
+  },
   "dependencies": {
     "@material-ui/core": "^4.0.0"
   },
