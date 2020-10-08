@@ -45,12 +45,11 @@ const wait = async (milliseconds: number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-const retry = async (type: string, fun: () => Promise<any> | any, tries: number = 0) => {
+const retry = async (type: string, fun: () => Promise<any> | any, tries: number = 0): Promise<any> => {
     try {
         return await fun();
     } catch (error) {
         console.error('Error in retry (' + tries + ') ' + type)
-        console.error(error)
         if (tries < 5) {
             await wait(100);
             return await retry(type, fun, tries + 1)
@@ -69,7 +68,7 @@ const ICONS_PATH = join(__dirname, '..', 'src', 'icons');
 mkdirSync(ASSETS_PATH, {recursive: true});
 mkdirSync(ICONS_PATH, {recursive: true});
 
-const chunk = (arr: Array<Promise<any>>, size = 1000): Array<Array<Promise<any>>> => {
+const chunk = (arr: Array<Promise<any>>, size = 500): Array<Array<Promise<any>>> => {
     const results = [];
     while (arr.length) {
         results.push(arr.splice(0, size));
@@ -98,7 +97,7 @@ const downloadAndWrite = async (metaData: any) => {
     const svg = await retry('download ' + metaData.name, async () => download(url));
 
     const paths = await getSvgPath(metaData.name, svg);
-    const iconClassName = `Mdi${metaData.name.split('-').map((v: string) => v.substring(0, 1).toUpperCase() + v.substring(1)).join('')}`
+    const iconClassName = `${metaData.name.split('-').map((v: string) => v.substring(0, 1).toUpperCase() + v.substring(1)).join('')}Icon`
     const data = {...metaData, url, file, paths, iconClassName}
     const rendered = renderIcon(data);
 

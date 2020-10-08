@@ -1,13 +1,12 @@
 {
-  "name": "@material-ui/icons-v2",
+  "name": "@material-ui-extra/icons",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
-    "@material-ui",
-    "@material-ui",
-    "@material-ui/icons",
+    "@material-ui-extra",
+    "@material-ui-extra/icons",
     "icons"
   ],
   "repository": {
