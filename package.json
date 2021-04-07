@@ -1,11 +1,11 @@
 {
   "name": "mdi-react-icons",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "clean": "npx st-rm-rf dist src",
     "prebuild-mat": "yarn clean",
     "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts && tsc",
-    "postbuild-mat" : "npx st-cp LICENSE src/assets dist && npx st-cp package-material-ui.json dist/package.json && npx st-cp README-material-ui.md dist/README.md "
+    "postbuild-mat" : "npx st-cp LICENSE src/meta.json src/assets dist && npx st-cp package-material-ui.json dist/package.json && npx st-cp README-material-ui.md dist/README.md "
   },
   "author": "Michael Mannseicher",
   "dependencies": {

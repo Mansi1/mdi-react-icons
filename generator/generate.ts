@@ -1,17 +1,33 @@
 import {get} from "https";
 import {mkdirSync, readFileSync, writeFileSync} from "fs";
-import {join} from "path";
+import {join, relative} from "path";
 import {parseString} from 'xml2js';
 import {render} from "mustache";
 
-interface IconMustacheViewData {
-    importName: string;
+interface IconMustacheViewData extends IconData {
     iconClassName: string
+    paths: Array<string>
+    url: string;
 }
 
 interface IconAllMustacheViewData {
     imports: Array<string>;
     icons: Array<string>
+}
+
+export interface WriteIcon extends IconData{
+   assetsUrl: string;
+   componentFileName: string;
+}
+
+export interface IconData {
+    id: string;
+    name: string;
+    codepoint: string;
+    aliases: string[];
+    tags: string[];
+    author: string;
+    version: string;
 }
 
 export const iife = (fun: () => unknown) => {
@@ -62,13 +78,15 @@ const retry = async (type: string, fun: () => Promise<any> | any, tries: number 
 const getMetaDataJSON = async () => {
     return JSON.parse(await download('https://raw.githubusercontent.com/Templarian/MaterialDesign/master/meta.json'));
 }
-const ASSETS_PATH = join(__dirname, '..', 'src', 'assets');
-const ICONS_PATH = join(__dirname, '..', 'src', 'icons');
+const SRC_PATH = join(__dirname, '..', 'src');
+const ASSETS_PATH = join(SRC_PATH, 'assets');
+const METADATA_JSON = join(SRC_PATH, 'meta.json');
+const ICONS_PATH = join(SRC_PATH, 'icons');
 
 mkdirSync(ASSETS_PATH, {recursive: true});
 mkdirSync(ICONS_PATH, {recursive: true});
 
-const chunk = (arr: Array<Promise<any>>, size = 500): Array<Array<Promise<any>>> => {
+const chunk = (arr: Array<any>, size = 500): Array<Array<any>> => {
     const results = [];
     while (arr.length) {
         results.push(arr.splice(0, size));
@@ -76,7 +94,7 @@ const chunk = (arr: Array<Promise<any>>, size = 500): Array<Array<Promise<any>>>
     return results;
 };
 
-const getSvgPath = async (fileName: string, svgStr: string) => {
+const getSvgPath = async (svgStr: string) => {
     const data: any = await new Promise((resolve, reject) => {
         parseString(svgStr, (err: Error, result: any) => {
             if (err) {
@@ -86,45 +104,40 @@ const getSvgPath = async (fileName: string, svgStr: string) => {
             }
 
         })
-        return data.svg.path.map((p: any) => p['$'].d);
     });
+    return data.svg.path.map((p: any) => p['$'].d);
 }
 
-const downloadAndWrite = async (metaData: any) => {
+const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
     const url = `https://raw.githubusercontent.com/Templarian/MaterialDesign/master/svg/${metaData.name}.svg`;
-    const file = join(ASSETS_PATH, `${metaData.name}.svg`);
+    const assetsSVGFile = join(ASSETS_PATH, `${metaData.name}.svg`);
 
-    const svg = await retry('download ' + metaData.name, async () => download(url));
+    const rawSVG = await retry('download ' + metaData.name, async () => download(url));
+    const svgPaths = await getSvgPath(rawSVG);
 
-    const paths = await getSvgPath(metaData.name, svg);
     const iconClassName = `${metaData.name.split('-').map((v: string) => v.substring(0, 1).toUpperCase() + v.substring(1)).join('')}Icon`
-    const data = {...metaData, url, file, paths, iconClassName}
+    const data: IconMustacheViewData = {...metaData, url, paths: svgPaths, iconClassName}
     const rendered = renderIcon(data);
+    const componentFileName = `${iconClassName}.tsx`;
+    const componentPath = join(ICONS_PATH, componentFileName);
+    writeFileSync(assetsSVGFile, rawSVG);
+    writeFileSync(componentPath, rendered);
 
-    writeFileSync(file, svg);
-    writeFileSync(join(ICONS_PATH, `${iconClassName}.tsx`), rendered);
-
-    return {
-        import: `import { ${iconClassName} } from \'./${iconClassName}\';`,
-        icon: `<${iconClassName} fontSize="large"/>`
-    }
+    return {...metaData, assetsUrl: relative(SRC_PATH,assetsSVGFile), componentFileName: iconClassName}
 }
 
 iife(async () => {
     console.log('start material ui icons generation')
-    const metaDatas = await getMetaDataJSON();
+    const icons: Array<IconData> = await getMetaDataJSON();
     console.log('downloaded meta data')
-    const chunks = chunk(metaDatas);
-    const icons: Array<{ icon: string, import: string }> = []
+
+    const chunks: Array<Array<IconData>> = chunk(icons);
+    const createdIcons: Array<WriteIcon> = [];
+
     for (const chunk of chunks) {
-        const iconChunk = await Promise.all(chunk.map((metaData: any) => downloadAndWrite(metaData)));
-        icons.push(...iconChunk);
+        createdIcons.push(...await Promise.all(chunk.map((icon: IconData) => downloadAndWrite(icon))));
     }
 
-    writeFileSync(join(ICONS_PATH, `MdiAllIcons.tsx`), renderAllIcon({
-        imports: icons.map(i => i.import),
-        icons: icons.map(i => i.icon)
-    }));
-
+    writeFileSync(METADATA_JSON, JSON.stringify(createdIcons, null, 2));
     console.log('generation done')
 });

@@ -13,11 +13,13 @@ jobs:
         run: npm install -g yarn
       - run: yarn install
       - run: yarn build-mat
+      - name: tar files
+        run: tar -cvf dist.tar dist
       - name: Add artifact to github
         uses: actions/upload-artifact@v2
         with:
           name: material-ui
-          path: dist
+          path: dist.tar
 
   npm-publish:
     needs: [build]
@@ -34,7 +36,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: material-ui
-          path: dist
+          path: dist.tar
+      - name: untar files
+        run: tar -xvf dist.tar
       - name: Publish if version in package.json change
         uses: springtype-org/github-action-npm-publish@master
         with:
