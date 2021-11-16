@@ -131,11 +131,15 @@ iife(async () => {
     const icons: Array<IconData> = await getMetaDataJSON();
     console.log('downloaded meta data')
 
+    const totalSize = icons.length;
     const chunks: Array<Array<IconData>> = chunk(icons);
     const createdIcons: Array<WriteIcon> = [];
-
+    let downloaded = 0;
     for (const chunk of chunks) {
+        
         createdIcons.push(...await Promise.all(chunk.map((icon: IconData) => downloadAndWrite(icon))));
+        downloaded += chunk.length
+        console.log(downloaded +'/'+totalSize+ ' downloaded files')
     }
 
     writeFileSync(METADATA_JSON, JSON.stringify(createdIcons, null, 2));
