@@ -1,13 +1,16 @@
 {
   "name": "@material-ui-extra/icons",
-  "version": "0.1.2",
+  "version": "1.1.2",
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
     "@material-ui-extra",
     "@material-ui-extra/icons",
-    "icons"
+    "icons",
+    "material-ui/icons",
+    "mdi icons",
+    "material icons"
   ],
   "repository": {
     "type": "git",
