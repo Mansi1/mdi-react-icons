@@ -3,6 +3,7 @@ import {mkdirSync, readFileSync, writeFileSync} from "fs";
 import {join, relative} from "path";
 import {parseString} from 'xml2js';
 import {render} from "mustache";
+import * as crypto from "crypto";
 
 interface IconMustacheViewData extends IconData {
     iconClassName: string
@@ -15,9 +16,9 @@ interface IconAllMustacheViewData {
     icons: Array<string>
 }
 
-export interface WriteIcon extends IconData{
-   assetsUrl: string;
-   componentFileName: string;
+export interface WriteIcon extends IconData {
+    assetsUrl: string;
+    componentFileName: string;
 }
 
 export interface IconData {
@@ -79,8 +80,10 @@ const getMetaDataJSON = async () => {
     return JSON.parse(await download('https://raw.githubusercontent.com/Templarian/MaterialDesign/master/meta.json'));
 }
 const SRC_PATH = join(__dirname, '..', 'src');
+const PROJECT_PACKAGE_JSON = join(__dirname, '..', 'package.json');
 const ASSETS_PATH = join(SRC_PATH, 'assets');
 const METADATA_JSON = join(SRC_PATH, 'meta.json');
+const VERSION = join(SRC_PATH, 'version.json');
 const ICONS_PATH = join(SRC_PATH, 'icons');
 
 mkdirSync(ASSETS_PATH, {recursive: true});
@@ -123,7 +126,7 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
     writeFileSync(assetsSVGFile, rawSVG);
     writeFileSync(componentPath, rendered);
 
-    return {...metaData, assetsUrl: relative(SRC_PATH,assetsSVGFile), componentFileName: iconClassName}
+    return {...metaData, assetsUrl: relative(SRC_PATH, assetsSVGFile), componentFileName: iconClassName}
 }
 
 iife(async () => {
@@ -136,12 +139,21 @@ iife(async () => {
     const createdIcons: Array<WriteIcon> = [];
     let downloaded = 0;
     for (const chunk of chunks) {
-        
+
         createdIcons.push(...await Promise.all(chunk.map((icon: IconData) => downloadAndWrite(icon))));
         downloaded += chunk.length
-        console.log(downloaded +'/'+totalSize+ ' downloaded files')
+        console.log(downloaded + '/' + totalSize + ' downloaded files')
     }
 
-    writeFileSync(METADATA_JSON, JSON.stringify(createdIcons, null, 2));
+    const metaJSON = JSON.stringify(createdIcons);
+    const {version} = JSON.parse(readFileSync(PROJECT_PACKAGE_JSON).toString());
+    const contentHash = crypto.createHash('md5').update(metaJSON).digest("hex");
+
+    writeFileSync(VERSION, JSON.stringify({
+        build: (new Date()).toISOString(),
+        contentHash: contentHash,
+        projectVersion: version
+    }));
+    writeFileSync(METADATA_JSON, metaJSON);
     console.log('generation done')
 });
