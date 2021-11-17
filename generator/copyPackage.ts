@@ -9,6 +9,26 @@ interface PackageInfo {
 const CURRENT_VERSION_JSON_PATH = path.join(__dirname, '..', 'src', 'version.json')
 const PACKAGE_MATERIAL_UI_PATH = path.join(__dirname, '..', 'package-material-ui.json')
 const PACKAGE_MATERIAL_UI_DIST_PATH = path.join(__dirname, '..', 'dist', 'package.json')
+
+const wait = async (milliseconds: number) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+const retry = async (type: string, fun: () => Promise<any> | any, tries: number = 0): Promise<any> => {
+    try {
+        return await fun();
+    } catch (error) {
+        console.error('Error in retry (' + tries + ') ' + type)
+        if (tries < 5) {
+            await wait(100);
+            return await retry(type, fun, tries + 1)
+        } else {
+            throw error;
+        }
+    }
+
+}
+
 const main = async () => {
     const packageResponse = await ngFetch(`https://registry.npmjs.org/@material-ui-extra/icons`);
     const info: PackageInfo = JSON.parse(packageResponse.response.toString());
@@ -24,12 +44,13 @@ const main = async () => {
         const [major, minor, patch] = latestPackageVersion.split('.')
         newPackageVersion = [major, minor, parseInt(patch) + 1].join('.')
     }
-    
-    console.log('current package version:' +latestPackageVersion);
-    console.log('new package version:' +newPackageVersion);
+
+    console.log('current package version:' + latestPackageVersion);
+    console.log('new package version:' + newPackageVersion);
 
     const packageJSON = JSON.parse(readFileSync(PACKAGE_MATERIAL_UI_PATH).toString());
     packageJSON.version = newPackageVersion;
     writeFileSync(PACKAGE_MATERIAL_UI_DIST_PATH, JSON.stringify(packageJSON, null, 2))
 }
-main();
+
+retry('main', async () => main());
