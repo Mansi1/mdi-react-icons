@@ -18,4 +18,6 @@ imports.push('')
 
 const tagType = 'export type Tag = ' + Object.keys(tags).map(v => "'" + v + "'").join('|') + ';\n';
 const tagTypeValues = 'export const TagValues:Array<Tag> = [' + Object.keys(tags).map(v => "'" + v + "'").join(',') + '];\n';
-fs.writeFileSync(path.join(__dirname, 'src', 'generated','AllIcons.tsx'), imports.join('\n') + tagType + tagTypeValues + lines.join('\n'))
+const generationPath =path.join(__dirname, 'src', 'generated');
+fs.mkdirSync(generationPath,{recursive: true} )
+fs.writeFileSync(path.join(generationPath,'AllIcons.tsx'), imports.join('\n') + tagType + tagTypeValues + lines.join('\n'))
