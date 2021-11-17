@@ -68,7 +68,7 @@ jobs:
       - name: install dependencies
         run: cd demo && yarn install
       - name: build project
-        run: cd demo yarn build
+        run: cd demo && yarn build
       - name: rename folder
         run: mv demo/build docs
       - name: Deploy
