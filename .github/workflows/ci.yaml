@@ -67,6 +67,8 @@ jobs:
         run: tar -xvf dist.tar
       - name: move to demo project
         run: cd demo
+      - name: show directory
+        run: ls -lisha
       - name: install dependencies
         run: yarn install
       - name: build project
