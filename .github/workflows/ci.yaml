@@ -66,9 +66,11 @@ jobs:
       - name: untar files
         run: tar -xvf dist.tar
       - name: install dependencies
-        run: cd demo && yarn install
+        working-directory: ./demo
+        run: yarn install
       - name: build project
-        run: cd demo && yarn build
+        working-directory: ./demo
+        run: yarn build
       - name: rename folder
         run: mv demo/build docs
       - name: Deploy
