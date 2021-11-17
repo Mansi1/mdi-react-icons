@@ -2,6 +2,7 @@
   "name": "mdi-react-icons-demo",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://mansi1.github.io/mdi-react-icons/",
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true && react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true && react-scripts build",
