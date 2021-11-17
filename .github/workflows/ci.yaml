@@ -65,12 +65,11 @@ jobs:
           name: material-ui
       - name: untar files
         run: tar -xvf dist.tar
-      - name: install dependencies
+      - name: build demo project
         working-directory: ./demo
-        run: yarn install
-      - name: build project
-        working-directory: ./demo
-        run: yarn build
+        run: |
+          yarn install
+          yarn build
       - name: rename folder
         run: mv demo/build docs
       - name: Deploy
