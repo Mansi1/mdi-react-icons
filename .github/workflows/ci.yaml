@@ -1,6 +1,11 @@
 name: Node CI
 
-on: [push,pull_request]
+on: 
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 23 * * 0'
+      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +23,6 @@ jobs:
         with:
           name: material-ui
           path: dist.tar
-
   npm-publish:
     needs: [build]
     name: npm-publish
@@ -45,3 +49,32 @@ jobs:
           auth_token: ${{ secrets.npm_token }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  gh-pages:
+    needs: [ build ]
+    name: gh-pages
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: material-ui
+      - name: untar files
+        run: tar -xvf dist.tar
+      - name: move to demo project
+        run: cd demo
+      - name: install dependencies
+        run: yarn install
+      - name: build project
+        run: yarn build
+      - name: rename folder
+        run: mv build docs
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs  # default: public
