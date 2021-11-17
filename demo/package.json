@@ -5,7 +5,7 @@
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true && react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true && react-scripts build",
-    "prebuild": "npx st-rm-rf build && node generate.js"
+    "prebuild": "node generate.js"
   },
   "dependencies": {
     "@date-io/core": "^1.x",
