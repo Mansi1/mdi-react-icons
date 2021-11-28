@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/mdi-react-icons/static/js/main.3c71df81.chunk.js",
-    "main.js.map": "/mdi-react-icons/static/js/main.3c71df81.chunk.js.map",
+    "main.js": "/mdi-react-icons/static/js/main.625d518e.chunk.js",
+    "main.js.map": "/mdi-react-icons/static/js/main.625d518e.chunk.js.map",
     "runtime-main.js": "/mdi-react-icons/static/js/runtime-main.829da788.js",
     "runtime-main.js.map": "/mdi-react-icons/static/js/runtime-main.829da788.js.map",
     "static/css/2.714091d6.chunk.css": "/mdi-react-icons/static/css/2.714091d6.chunk.css",
-    "static/js/2.6c1c53e8.chunk.js": "/mdi-react-icons/static/js/2.6c1c53e8.chunk.js",
-    "static/js/2.6c1c53e8.chunk.js.map": "/mdi-react-icons/static/js/2.6c1c53e8.chunk.js.map",
+    "static/js/2.6d278b8f.chunk.js": "/mdi-react-icons/static/js/2.6d278b8f.chunk.js",
+    "static/js/2.6d278b8f.chunk.js.map": "/mdi-react-icons/static/js/2.6d278b8f.chunk.js.map",
     "index.html": "/mdi-react-icons/index.html",
-    "precache-manifest.9385ab9353882c90bcb7019ae7fde29a.js": "/mdi-react-icons/precache-manifest.9385ab9353882c90bcb7019ae7fde29a.js",
+    "precache-manifest.4730a5305f1c258b82d865020edf6f2a.js": "/mdi-react-icons/precache-manifest.4730a5305f1c258b82d865020edf6f2a.js",
     "service-worker.js": "/mdi-react-icons/service-worker.js",
     "static/css/2.714091d6.chunk.css.map": "/mdi-react-icons/static/css/2.714091d6.chunk.css.map",
-    "static/js/2.6c1c53e8.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.6c1c53e8.chunk.js.LICENSE.txt",
+    "static/js/2.6d278b8f.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.6d278b8f.chunk.js.LICENSE.txt",
     "static/media/ab-testing.svg": "/mdi-react-icons/static/media/ab-testing.a6142b67.svg",
     "static/media/abacus.svg": "/mdi-react-icons/static/media/abacus.77928531.svg",
     "static/media/abjad-arabic.svg": "/mdi-react-icons/static/media/abjad-arabic.13f0162a.svg",
@@ -815,6 +815,8 @@
     "static/media/battery-charging.svg": "/mdi-react-icons/static/media/battery-charging.20599a3c.svg",
     "static/media/battery-check-outline.svg": "/mdi-react-icons/static/media/battery-check-outline.f6b891af.svg",
     "static/media/battery-check.svg": "/mdi-react-icons/static/media/battery-check.146193e2.svg",
+    "static/media/battery-clock-outline.svg": "/mdi-react-icons/static/media/battery-clock-outline.ab5b07cc.svg",
+    "static/media/battery-clock.svg": "/mdi-react-icons/static/media/battery-clock.2e31feee.svg",
     "static/media/battery-heart-outline.svg": "/mdi-react-icons/static/media/battery-heart-outline.9d4a8c13.svg",
     "static/media/battery-heart-variant.svg": "/mdi-react-icons/static/media/battery-heart-variant.0af86d89.svg",
     "static/media/battery-heart.svg": "/mdi-react-icons/static/media/battery-heart.e0ec7141.svg",
@@ -6644,7 +6646,7 @@
   "entrypoints": [
     "static/js/runtime-main.829da788.js",
     "static/css/2.714091d6.chunk.css",
-    "static/js/2.6c1c53e8.chunk.js",
-    "static/js/main.3c71df81.chunk.js"
+    "static/js/2.6d278b8f.chunk.js",
+    "static/js/main.625d518e.chunk.js"
   ]
 }
