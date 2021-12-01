@@ -15,6 +15,10 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn install
+      - uses: actions/cache@v2
+        with:
+          path: 'node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
       - run: yarn build-mat
       - name: tar files
         run: tar -cvf dist.tar dist
@@ -59,6 +63,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - uses: actions/cache@v2
+        with:
+          path: 'demo/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('demo/yarn.lock') }}
       - name: Download build
         uses: actions/download-artifact@v2
         with:
