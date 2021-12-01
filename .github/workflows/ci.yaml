@@ -14,11 +14,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn install
       - uses: actions/cache@v2
         with:
           path: 'node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}          
+      - run: yarn install
       - run: yarn build-mat
       - name: tar files
         run: tar -cvf dist.tar dist
