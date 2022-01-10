@@ -112,6 +112,8 @@ const getSvgPath = async (svgStr: string) => {
 }
 
 const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
+    return retry('process ' + metaData.name, async () => {
+        
     const url = `https://raw.githubusercontent.com/Templarian/MaterialDesign/master/svg/${metaData.name}.svg`;
     const assetsSVGFile = join(ASSETS_PATH, `${metaData.name}.svg`);
 
@@ -127,6 +129,7 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
     writeFileSync(componentPath, rendered);
 
     return {...metaData, assetsUrl: relative(SRC_PATH, assetsSVGFile), componentFileName: iconClassName}
+    });
 }
 
 iife(async () => {
