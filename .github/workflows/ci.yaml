@@ -54,10 +54,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   gh-pages:
-    needs: [ build, npm-publish ]
+    needs: [ build ]
     name: gh-pages
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && needs.npm-publish.outputs.published
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
