@@ -7,7 +7,18 @@ import {useStore} from '@nanostores/react'
 import {iconStore} from "../../store/iconStore";
 import {ModalLayout} from "./ModalLayout";
 import {Icon} from "../../interfaces/Icon";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
 
+export const getDefaultArray = (arr: Array<any>, defaultElement: any)=> {
+    if(!arr || arr.length === 0){
+        return [defaultElement]
+    }
+    return arr;
+}
 export const IconModal = () => {
     const selectedIcon = useStore(iconStore)
     const handleClose = () => {
@@ -23,13 +34,36 @@ export const IconModal = () => {
             onClose={handleClose}
         >
             <ModalLayout title={selectedIcon.name} onClose={handleClose}>
-                <div>{selectedIcon.author}</div>
-                <Code>{'import ' + selectedIcon.componentFileName + ' form "@material-ui-extra/icons/' + selectedIcon.componentFileName + '";'}</Code>
+                <Code>{'import { ' + selectedIcon.componentFileName + ' } from "@material-ui-extra/icons/' + selectedIcon.componentFileName + '";'}</Code>
                 <ShowCase icon={selectedIcon}/>
-                <div>alias: {selectedIcon.aliases.join(' ')}</div>
-                <div>tags: {selectedIcon.tags.join(' ')}</div>
-                <Button variant="text" color="primary" onClick={() => handleDownload(selectedIcon)}>Download
-                    svg</Button>
+                <TableContainer>
+                    <Table>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell component="th" scope="row">
+                                Author
+                            </TableCell>
+                            <TableCell>{selectedIcon.author}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell component="th" scope="row">
+                                Alias
+                            </TableCell>
+                            <TableCell>{getDefaultArray(selectedIcon.aliases, 'None').join(' ')}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell component="th" scope="row">
+                                Tags
+                            </TableCell>
+                            <TableCell>{getDefaultArray(selectedIcon.tags, 'None').join(' ')}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                    </Table>
+                </TableContainer>
+                <div style={{margin: 10, textAlign: 'center'}}>
+                <Button variant="contained" color="primary" onClick={() => handleDownload(selectedIcon)}>
+                    Download svg</Button>
+                </div>
             </ModalLayout>
         </Modal>} 
     </>);

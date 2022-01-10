@@ -9,9 +9,10 @@ import {iconStore} from "./store/iconStore";
 const getClasses = makeStyles(({palette}: Theme) => ({
     root: {
         cursor: 'pointer',
+        textAlign: 'center',
         '& svg': {
-            fontSize: '80px !important',
-        }
+            fontSize: '90px !important',
+        },
     },
     community: {
         color: '#ff814a'
@@ -23,24 +24,6 @@ const getClasses = makeStyles(({palette}: Theme) => ({
         fontSize: 14,
         backgroundColor: palette.common.black,
     },
-    iconWrapper: {
-        height: 150,
-        width: 150,
-        display: "flex",
-        textAlign: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: '2px solid black'
-    },
-    text: {
-        width: 140,
-        textAlign: 'center',
-        marginTop: -22,
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        paddingLeft: 7,
-        textOverflow: 'ellipsis'
-}
 }));
 
 export interface MdiIconProps {
@@ -57,14 +40,13 @@ export const MdiIcon = React.memo(({icon}: MdiIconProps) => {
                          <div>{icon.name}</div>
                          <div style={{borderTop: '1px dotted #fff'}}>{icon.author}</div>
                      </div>} arrow>
-        <Grid item
+        <Grid item xs={4} sm={3} md={2} lg={1}
               className={joinClasses({
                   [classes.root]: true,
                   [classes.community]: icon.author === 'Google'
               })}
               onClick={handleClick}>
-            <div className={classes.iconWrapper}>{icon.cmp}
-            </div>
-            <div className={classes.text}>{icon.name}</div>
+           {icon.cmp}
+            <div style={{width: 90,margin:"auto"}}>{icon.name}</div>
         </Grid></Tooltip>);
 })
