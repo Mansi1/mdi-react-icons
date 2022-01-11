@@ -120,7 +120,7 @@ export const App = () => {
             <div style={{height: 70}}/>
             <Container maxWidth={"lg"}>
                  <ViewContainer show={typeof searchResult !== 'undefined'} key={'search-result'}>
-                    <Tag name={"Search result for '" + searchValue + "'"}/>
+                    <Tag name={"Search result for '" + searchValue + "'"} addLink={false}/>
                     <div style={{height: 30}}/>
                     <Grid container spacing={3} className={classes.root}>
                         {(searchResult || []).map(({ref, score}) => <React.Fragment key={'search-icon-' + ref}>
