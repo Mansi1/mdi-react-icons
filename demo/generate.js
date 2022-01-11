@@ -23,7 +23,7 @@ metaJson.forEach((icon, index) => {
     const {assetsUrl: __, ...jsonIcon} = icon;
     imports.push('import ' + icon.componentFileName + ' from "@material-ui-extra/icons/' + icon.componentFileName + '";')
     imports.push('import ' + icon.componentFileName + 'Url from "@material-ui-extra/icons/' + icon.assetsUrl + '";')
-    lines.push('    "' + icon.id + '": <MdiIcon icon={{...' + JSON.stringify({...jsonIcon}) + ', assetsUrl: '+icon.componentFileName+', cmp: <' + icon.componentFileName + ' fontSize="inherit" /> }} />,')
+    lines.push('    "' + icon.id + '": <MdiIcon icon={{...' + JSON.stringify({...jsonIcon}) + ', assetsUrl: '+icon.componentFileName+'Url , cmp: <' + icon.componentFileName + ' fontSize="inherit" /> }} />,')
 })
 
 lines.push('};');
