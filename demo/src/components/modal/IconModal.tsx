@@ -49,13 +49,13 @@ export const IconModal = () => {
                             <TableCell component="th" scope="row">
                                 Alias
                             </TableCell>
-                            <TableCell>{getDefaultArray(selectedIcon.aliases, 'None').join(' ')}</TableCell>
+                            <TableCell>{getDefaultArray(selectedIcon.aliases, '-').join(' ')}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell component="th" scope="row">
                                 Tags
                             </TableCell>
-                            <TableCell>{getDefaultArray(selectedIcon.tags, 'None').join(' ')}</TableCell>
+                            <TableCell>{getDefaultArray(selectedIcon.tags, '-').join(' ')}</TableCell>
                         </TableRow>
                     </TableBody>
                     </Table>
