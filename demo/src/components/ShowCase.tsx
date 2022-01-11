@@ -3,6 +3,7 @@ import {Icon} from "../interfaces/Icon";
 import {makeStyles, Theme} from '@material-ui/core/styles';
 import {joinClasses} from "@milkscout/react";
 import {Style} from "./Style";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 const getClasses = makeStyles(({palette}: Theme) => ({
     root: {
@@ -30,9 +31,15 @@ export interface ShowCaseProps {
 export const ShowCase = ({icon}: ShowCaseProps) => {
     const classes = getClasses();
     return (<div className={joinClasses({[classes.root]: true, [classes.community]: icon.author === 'Google'})}>
-            <Style style={{fontSize: 48, flex: 1, textAlign: 'center'}}>{icon.cmp}</Style>
-            <Style style={{fontSize: 72, flex: 1, textAlign: 'center'}}>{icon.cmp}</Style>
-            <Style style={{fontSize: 96, flex: 1, textAlign: 'center'}}>{icon.cmp}</Style>
+            {[48, 72,96].map(size => (<Style style={{flex: 1, textAlign: 'center'}}>
+                <LazyLoadImage
+                    alt={icon.name}
+                    src={'mdi-react-icons/'+icon.assetsUrl}
+                    effect={'blur'}
+                    height={size}
+                    width={size}
+                />
+            </Style>))}
         </div>
     );
 };

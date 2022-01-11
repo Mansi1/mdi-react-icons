@@ -4,3 +4,6 @@
 /.idea/
 /demo/src/generated/
 /demo/node_modules/
+/demo/public/assets/
+/demo/public/dist/
+/demo/build/

@@ -32,7 +32,6 @@ const getAllImports= (icon: Icon): string => {
         lines.push('// alias import')
         icon.componentAliasFileNames.forEach((alias) => {
                 lines.push(getImport(alias));
-                lines.push('\n');
             }
         )
     }

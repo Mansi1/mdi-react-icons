@@ -1,5 +1,3 @@
-import {ReactElement} from "react";
-
 export interface Icon  {
     "id": string,
     "name": string,
@@ -11,5 +9,4 @@ export interface Icon  {
     "assetsUrl": string,
     "componentFileName": string
     "componentAliasFileNames": Array<string>
-    "cmp": ReactElement
 }

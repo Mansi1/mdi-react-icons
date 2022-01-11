@@ -3,8 +3,7 @@ import {ViewContainer} from "@milkscout/react";
 import {Container, Grid, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles, Theme} from '@material-ui/core/styles';
 import {IconModal} from "./components/modal/IconModal";
-import tagsMap from "./generated/tagsMap.json"
-import {ICON_MAP, TAG_VALUES} from "./generated/iconMap"
+import {ICON_MAP, TAG_VALUES, TAG_ARRAY_MAP} from "./generated/iconMap"
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +13,7 @@ import {searchIndex} from "./search/search";
 import {MagnifyIcon} from "@material-ui-extra/icons/MagnifyIcon";
 import {CloseIcon} from "@material-ui-extra/icons/CloseIcon";
 import IconButton from "@material-ui/core/IconButton";
+import {MdiIcon} from "./MdiIcon";
 
 const getClasses = makeStyles((theme: Theme) => ({
     root: {
@@ -123,21 +123,21 @@ export const App = () => {
                     <Tag name={"Search result for '" + searchValue + "'"} addLink={false}/>
                     <div style={{height: 30}}/>
                     <Grid container spacing={3} className={classes.root}>
-                        {(searchResult || []).map(({ref, score}) => <React.Fragment key={'search-icon-' + ref}>
-                            {ICON_MAP[ref]}
+                        {(searchResult || []).map(({ref}) => <React.Fragment key={'search-icon-' + ref}>
+                        <MdiIcon icon={ICON_MAP[ref]}/>
                         </React.Fragment>)}
                     </Grid>
                     <div style={{height: 70}}/>
                 </ViewContainer>
 
                 <ViewContainer show={typeof searchResult === 'undefined'}> 
-                    {TAG_VALUES.map((tag) => {
+                    {TAG_VALUES.filter(tag => !!TAG_ARRAY_MAP[tag]).map((tag) => {
                     return <div key={'tag-' + tag}>
                         <Tag name={tag}/>
                         <div style={{height: 30}}/>
                         <Grid container spacing={3} className={classes.root}>
-                            {tagsMap[tag].map((iconId) => <React.Fragment key={iconId}>
-                                {ICON_MAP[iconId]}
+                            {TAG_ARRAY_MAP[tag].map((icon) => <React.Fragment key={icon.id}>
+                               <MdiIcon icon={icon} />
                             </React.Fragment>)}
                         </Grid>
                         <div id={tag} style={{height: 70}}/>

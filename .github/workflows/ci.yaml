@@ -79,7 +79,9 @@ jobs:
           yarn install
           yarn build
       - name: rename folder
-        run: mv demo/build docs
+        run: |
+          cp demo/build/index.html demo/build/404.html
+          mv demo/build docs
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
