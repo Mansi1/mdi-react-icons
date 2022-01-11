@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/mdi-react-icons/static/js/main.3646e15b.chunk.js",
-    "main.js.map": "/mdi-react-icons/static/js/main.3646e15b.chunk.js.map",
+    "main.js": "/mdi-react-icons/static/js/main.adf00b33.chunk.js",
+    "main.js.map": "/mdi-react-icons/static/js/main.adf00b33.chunk.js.map",
     "runtime-main.js": "/mdi-react-icons/static/js/runtime-main.829da788.js",
     "runtime-main.js.map": "/mdi-react-icons/static/js/runtime-main.829da788.js.map",
-    "static/css/2.714091d6.chunk.css": "/mdi-react-icons/static/css/2.714091d6.chunk.css",
-    "static/js/2.8a2c1072.chunk.js": "/mdi-react-icons/static/js/2.8a2c1072.chunk.js",
-    "static/js/2.8a2c1072.chunk.js.map": "/mdi-react-icons/static/js/2.8a2c1072.chunk.js.map",
+    "static/css/2.445f94b6.chunk.css": "/mdi-react-icons/static/css/2.445f94b6.chunk.css",
+    "static/js/2.35329056.chunk.js": "/mdi-react-icons/static/js/2.35329056.chunk.js",
+    "static/js/2.35329056.chunk.js.map": "/mdi-react-icons/static/js/2.35329056.chunk.js.map",
     "index.html": "/mdi-react-icons/index.html",
-    "precache-manifest.e02b1e2b2918c877b8985a450322ecc1.js": "/mdi-react-icons/precache-manifest.e02b1e2b2918c877b8985a450322ecc1.js",
+    "precache-manifest.ca16868fac3ef93e6f166e19c5462300.js": "/mdi-react-icons/precache-manifest.ca16868fac3ef93e6f166e19c5462300.js",
     "service-worker.js": "/mdi-react-icons/service-worker.js",
-    "static/css/2.714091d6.chunk.css.map": "/mdi-react-icons/static/css/2.714091d6.chunk.css.map",
-    "static/js/2.8a2c1072.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.8a2c1072.chunk.js.LICENSE.txt",
+    "static/css/2.445f94b6.chunk.css.map": "/mdi-react-icons/static/css/2.445f94b6.chunk.css.map",
+    "static/js/2.35329056.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.35329056.chunk.js.LICENSE.txt",
     "static/media/ab-testing.svg": "/mdi-react-icons/static/media/ab-testing.a6142b67.svg",
     "static/media/abacus.svg": "/mdi-react-icons/static/media/abacus.77928531.svg",
     "static/media/abjad-arabic.svg": "/mdi-react-icons/static/media/abjad-arabic.13f0162a.svg",
@@ -6645,8 +6645,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.829da788.js",
-    "static/css/2.714091d6.chunk.css",
-    "static/js/2.8a2c1072.chunk.js",
-    "static/js/main.3646e15b.chunk.js"
+    "static/css/2.445f94b6.chunk.css",
+    "static/js/2.35329056.chunk.js",
+    "static/js/main.adf00b33.chunk.js"
   ]
 }
