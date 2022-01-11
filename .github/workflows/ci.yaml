@@ -77,6 +77,7 @@ jobs:
         working-directory: ./demo
         run: |
           rm -rf node_modules/@material-ui-extra
+          mkdir node_modules/@material-ui-extra
           cp -arv ../dist/*  node_modules/@material-ui-extra        
       - name: build demo project
         working-directory: ./demo
