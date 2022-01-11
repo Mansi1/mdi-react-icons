@@ -44,7 +44,7 @@ export const IconModal = () => {
         iconStore.set(undefined)
     }
     const handleDownload = (icon: Icon) => {
-        return downloadImage(icon.name + '.svg', icon.assetsUrl)
+        return downloadImage(icon.name + '.svg', window.location.origin +'/mdi-react-icons/'+icon.assetsUrl)
     }
     return (<>
         {selectedIcon && <Modal
