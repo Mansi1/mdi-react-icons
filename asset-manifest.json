@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.js": "/mdi-react-icons/static/js/main.5f54d4a1.chunk.js",
-    "main.js.map": "/mdi-react-icons/static/js/main.5f54d4a1.chunk.js.map",
+    "main.js": "/mdi-react-icons/static/js/main.0685c33e.chunk.js",
+    "main.js.map": "/mdi-react-icons/static/js/main.0685c33e.chunk.js.map",
     "runtime-main.js": "/mdi-react-icons/static/js/runtime-main.829da788.js",
     "runtime-main.js.map": "/mdi-react-icons/static/js/runtime-main.829da788.js.map",
     "static/css/2.445f94b6.chunk.css": "/mdi-react-icons/static/css/2.445f94b6.chunk.css",
     "static/js/2.efa1e3c6.chunk.js": "/mdi-react-icons/static/js/2.efa1e3c6.chunk.js",
     "static/js/2.efa1e3c6.chunk.js.map": "/mdi-react-icons/static/js/2.efa1e3c6.chunk.js.map",
     "index.html": "/mdi-react-icons/index.html",
-    "precache-manifest.efa8a7f9a52560a8a5d939b90339cd85.js": "/mdi-react-icons/precache-manifest.efa8a7f9a52560a8a5d939b90339cd85.js",
+    "precache-manifest.d92eb9f857c5f4d3435b61f5a9ec3415.js": "/mdi-react-icons/precache-manifest.d92eb9f857c5f4d3435b61f5a9ec3415.js",
     "service-worker.js": "/mdi-react-icons/service-worker.js",
     "static/css/2.445f94b6.chunk.css.map": "/mdi-react-icons/static/css/2.445f94b6.chunk.css.map",
     "static/js/2.efa1e3c6.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.efa1e3c6.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.829da788.js",
     "static/css/2.445f94b6.chunk.css",
     "static/js/2.efa1e3c6.chunk.js",
-    "static/js/main.5f54d4a1.chunk.js"
+    "static/js/main.0685c33e.chunk.js"
   ]
 }
