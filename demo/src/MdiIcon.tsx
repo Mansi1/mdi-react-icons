@@ -1,10 +1,11 @@
 import React from 'react';
 import {Icon} from "./interfaces/Icon";
 import {Grid, Tooltip} from "@material-ui/core";
-
 import {makeStyles, Theme} from '@material-ui/core/styles';
 import {joinClasses} from "@milkscout/react";
 import {iconStore} from "./store/iconStore";
+import {LazyLoadImage} from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const getClasses = makeStyles(({palette}: Theme) => ({
     root: {
@@ -14,9 +15,6 @@ const getClasses = makeStyles(({palette}: Theme) => ({
             fontSize: '90px !important',
         },
     },
-    community: {
-        color: '#ff814a'
-    },
     arrow: {
         color: palette.common.black,
     },
@@ -24,6 +22,7 @@ const getClasses = makeStyles(({palette}: Theme) => ({
         fontSize: 14,
         backgroundColor: palette.common.black,
     },
+    iconName: {width: 90, margin: "auto", color: '#000'}
 }));
 
 export interface MdiIconProps {
@@ -43,10 +42,16 @@ export const MdiIcon = React.memo(({icon}: MdiIconProps) => {
         <Grid item xs={4} sm={3} md={2} lg={1}
               className={joinClasses({
                   [classes.root]: true,
-                  [classes.community]: icon.author === 'Google'
               })}
               onClick={handleClick}>
-           {icon.cmp}
-            <div style={{width: 90,margin:"auto"}}>{icon.name}</div>
-        </Grid></Tooltip>);
+            <LazyLoadImage
+                alt={icon.name}
+                src={icon.assetsUrl}
+                effect={'blur'}
+                height={90}
+                width={90}
+            />
+            <div className={classes.iconName}>{icon.name}</div>
+        </Grid>
+    </Tooltip>);
 })

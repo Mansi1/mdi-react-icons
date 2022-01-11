@@ -62,7 +62,7 @@ const wait = async (milliseconds: number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-const retry = async (type: string, fun: () => Promise<any> | any, tries: number = 0): Promise<any> => {
+const retry = async <T>(type: string, fun: () => Promise<T> | T, tries: number = 0): Promise<T> => {
     try {
         return await fun();
     } catch (error) {
@@ -142,11 +142,12 @@ iife(async () => {
     const createdIcons: Array<WriteIcon> = [];
     let downloaded = 0;
     for (const chunk of chunks) {
+        console.log(downloaded + '/' + totalSize + ' downloaded files')
 
         createdIcons.push(...await Promise.all(chunk.map((icon: IconData) => downloadAndWrite(icon))));
         downloaded += chunk.length
-        console.log(downloaded + '/' + totalSize + ' downloaded files')
     }
+    console.log(downloaded + '/' + totalSize + ' downloaded files')
 
     const metaJSON = JSON.stringify(createdIcons);
     const {version} = JSON.parse(readFileSync(PROJECT_PACKAGE_JSON).toString());

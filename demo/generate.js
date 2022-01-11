@@ -29,7 +29,7 @@ lines.push('};');
 imports.push('')
 imports.push('')
 
-tags.None=true
+tags.None = true
 
 const tagType = 'export type Tag = ' + Object.keys(tags).map(v => "'" + v + "'").join('|') + ';\n';
 const tagTypeValues = 'export const TAG_VALUES: Array<Tag> = [' + Object.keys(tags).map(v => "'" + v + "'").join(',') + '];\n';
@@ -38,3 +38,4 @@ const generationPath = path.join(__dirname, 'src', 'generated');
 fs.mkdirSync(generationPath, {recursive: true})
 fs.writeFileSync(path.join(generationPath, 'iconMap.tsx'), imports.join('\n') + tagType + tagTypeValues + lines.join('\n'))
 fs.writeFileSync(path.join(generationPath, 'tagsMap.json'), JSON.stringify(tagsMap, null, 2))
+fs.writeFileSync(path.join(generationPath, 'meta.json'), JSON.stringify(metaJson, null, 2))
