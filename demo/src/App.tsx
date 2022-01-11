@@ -67,7 +67,14 @@ export const App = () => {
     const [searchResult, setSearchResult] = useMountedState<Array<{ ref: string, score: number }> | undefined>(undefined)
 
     const triggerSearch = useDebounceFunction(useCallback(() => {
-        const result = searchIndex.search(searchValue);
+        const result = searchIndex.search(searchValue, {
+            fields: {
+                name: {boost: 2},
+                aliases: {boost: 2},
+                tags: {boost: 1},
+            },
+            expand: true,
+        });
         setSearchResult(result)
     }, [searchValue, setSearchResult]))
 

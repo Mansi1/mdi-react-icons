@@ -52,11 +52,11 @@ export const IconModal = () => {
             onClick={(evt) => evt.stopPropagation()}
             onClose={handleClose}
         >
+            <>
             <ModalLayout title={selectedIcon.name} onClose={handleClose}>
                 <Code>
                     {getAllImports(selectedIcon)}
                 </Code>
-                
                 <ShowCase icon={selectedIcon}/>
                 <TableContainer>
                     <Table>
@@ -87,6 +87,7 @@ export const IconModal = () => {
                         Download svg</Button>
                 </div>
             </ModalLayout>
+            </>
         </Modal>}
     </>);
 };

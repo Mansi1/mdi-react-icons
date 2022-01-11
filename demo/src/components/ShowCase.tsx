@@ -31,7 +31,7 @@ export interface ShowCaseProps {
 export const ShowCase = ({icon}: ShowCaseProps) => {
     const classes = getClasses();
     return (<div className={joinClasses({[classes.root]: true, [classes.community]: icon.author === 'Google'})}>
-            {[48, 72,96].map(size => (<Style style={{flex: 1, textAlign: 'center'}}>
+            {[48, 72,96].map(size => (<Style key={"show-case-"+size} style={{flex: 1, textAlign: 'center'}}>
                 <LazyLoadImage
                     alt={icon.name}
                     src={'mdi-react-icons/'+icon.assetsUrl}
