@@ -34,7 +34,7 @@ export const ShowCase = ({icon}: ShowCaseProps) => {
             {[48, 72,96].map(size => (<Style key={"show-case-"+size} style={{flex: 1, textAlign: 'center'}}>
                 <LazyLoadImage
                     alt={icon.name}
-                    src={'mdi-react-icons/'+icon.assetsUrl}
+                    src={window.location.origin +'/mdi-react-icons/'+icon.assetsUrl}
                     effect={'blur'}
                     height={size}
                     width={size}

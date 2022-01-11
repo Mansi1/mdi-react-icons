@@ -46,7 +46,7 @@ export const MdiIcon = React.memo(({icon}: MdiIconProps) => {
               onClick={handleClick}>
             <LazyLoadImage
                 alt={icon.name}
-                src={'mdi-react-icons/'+icon.assetsUrl}
+                src={window.location.origin +'/mdi-react-icons/'+icon.assetsUrl}
                 effect={'blur'}
                 height={90}
                 width={90}

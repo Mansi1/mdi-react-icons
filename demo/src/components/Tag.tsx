@@ -29,8 +29,7 @@ export const Tag = ({name, addLink = true}: TagProps) => {
     return (<div className={classes.root}>
         <div className={classes.rootWrapper}>
             {name} {addLink && <IconButton style={{color: '#fff'}} onClick={() => {
-            navigator.clipboard.writeText(`${window.location.origin}#${encodeURIComponent(name)}`);
-
+            navigator.clipboard.writeText(`${window.location.origin}/mdi-react-icons/#${encodeURIComponent(name)}`);
         }}>
             <LinkVariantIcon/>
         </IconButton>}
