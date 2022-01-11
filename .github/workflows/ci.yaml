@@ -73,6 +73,11 @@ jobs:
           name: material-ui
       - name: untar files
         run: tar -xvf dist.tar
+      - name: update node_modules manually
+        working-directory: ./demo
+        run: |
+          rm -rf node_modules/@material-ui-extra
+          cp -arv ../dist/*  node_modules/@material-ui-extra        
       - name: build demo project
         working-directory: ./demo
         run: |

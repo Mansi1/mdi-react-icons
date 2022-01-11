@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@date-io/core": "^1.x",
-    "@material-ui-extra/icons": "../dist",
     "@material-ui/core": "^4.11.3",
     "@milkscout/react": "^1.0.34",
     "@nanostores/react": "^0.1.2",
