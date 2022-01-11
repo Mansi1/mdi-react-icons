@@ -1,6 +1,6 @@
 {
   "name": "mdi-react-icons",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "scripts": {
     "clean": "npx st-rm-rf dist src",
     "prebuild-mat": "yarn clean",

@@ -10,5 +10,6 @@ export interface Icon  {
     "version":string,
     "assetsUrl": string,
     "componentFileName": string
+    "componentAliasFileNames": Array<string>
     "cmp": ReactElement
 }

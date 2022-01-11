@@ -11,6 +11,12 @@ interface IconMustacheViewData extends IconData {
     url: string;
 }
 
+interface IconAliasMustacheViewData extends IconData {
+    iconAliasClassName: string
+    originalIconName: string
+    url: string;
+}
+
 interface IconAllMustacheViewData {
     imports: Array<string>;
     icons: Array<string>
@@ -41,6 +47,12 @@ export const renderIcon = (viewData: IconMustacheViewData) => {
     return render(templateString, viewData);
 }
 
+export const renderAliasIcon = (viewData: IconAliasMustacheViewData) => {
+    const templatePath = join(__dirname, 'icon-alias-template.mustache');
+    const templateString = readFileSync(templatePath).toString('utf8')
+    return render(templateString, viewData);
+}
+
 export const renderAllIcon = (viewData: IconAllMustacheViewData) => {
     const templatePath = join(__dirname, 'icon-all.mustache');
     const templateString = readFileSync(templatePath).toString('utf8')
@@ -61,6 +73,8 @@ const download = async (url: string): Promise<string> => {
 const wait = async (milliseconds: number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
+
+const iconRegistry: {[name: string]: boolean} = {};
 
 const retry = async <T>(type: string, fun: () => Promise<T> | T, tries: number = 0): Promise<T> => {
     try {
@@ -110,25 +124,55 @@ const getSvgPath = async (svgStr: string) => {
     });
     return data.svg.path.map((p: any) => p['$'].d);
 }
-
+export const createIconName = (rawName: string) => {
+    let prefix = '';
+    if (rawName.match(/^\d/)) {
+        prefix = '_'
+    }
+    return `${prefix}${rawName.split('-').map((v: string) => v.substring(0, 1).toUpperCase() + v.substring(1)).join('')}Icon`
+}
 const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
     return retry('process ' + metaData.name, async () => {
-        
-    const url = `https://raw.githubusercontent.com/Templarian/MaterialDesign/master/svg/${metaData.name}.svg`;
-    const assetsSVGFile = join(ASSETS_PATH, `${metaData.name}.svg`);
 
-    const rawSVG = await retry('download ' + metaData.name, async () => download(url));
-    const svgPaths = await getSvgPath(rawSVG);
+        const url = `https://raw.githubusercontent.com/Templarian/MaterialDesign/master/svg/${metaData.name}.svg`;
+        const assetsSVGFile = join(ASSETS_PATH, `${metaData.name}.svg`);
 
-    const iconClassName = `${metaData.name.split('-').map((v: string) => v.substring(0, 1).toUpperCase() + v.substring(1)).join('')}Icon`
-    const data: IconMustacheViewData = {...metaData, url, paths: svgPaths, iconClassName}
-    const rendered = renderIcon(data);
-    const componentFileName = `${iconClassName}.tsx`;
-    const componentPath = join(ICONS_PATH, componentFileName);
-    writeFileSync(assetsSVGFile, rawSVG);
-    writeFileSync(componentPath, rendered);
+        const rawSVG = await retry('download ' + metaData.name, async () => download(url));
+        const svgPaths = await getSvgPath(rawSVG);
 
-    return {...metaData, assetsUrl: relative(SRC_PATH, assetsSVGFile), componentFileName: iconClassName}
+        const iconClassName = createIconName(metaData.name)
+        const componentAliasFileNames: Array< string> = [];
+        const data: IconMustacheViewData = {...metaData, url, paths: svgPaths, iconClassName}
+        const rendered = renderIcon(data);
+        const componentFileName = `${iconClassName}.tsx`;
+        const componentPath = join(ICONS_PATH, componentFileName);
+        writeFileSync(assetsSVGFile, rawSVG);
+        writeFileSync(componentPath, rendered);
+
+        iconRegistry[iconClassName.toLowerCase()] = true;
+        data.aliases
+            .map((alias) => createIconName(alias))
+            .filter(aliasIconClassName => !iconRegistry[aliasIconClassName.toLowerCase()])
+            .forEach((aliasIconClassName) => {
+                const renderedAlias = renderAliasIcon({
+                    ...data,
+                    originalIconName: iconClassName,
+                    iconAliasClassName: aliasIconClassName,
+                });
+
+                const componentAliasFileName = `${aliasIconClassName}.tsx`;
+                const componentAliasPath = join(ICONS_PATH, componentAliasFileName);
+                componentAliasFileNames.push(aliasIconClassName)
+                writeFileSync(componentAliasPath, renderedAlias);
+                iconRegistry[aliasIconClassName.toLowerCase()] = true;
+            })
+
+        return {
+            ...metaData,
+            assetsUrl: relative(SRC_PATH, assetsSVGFile),
+            componentFileName: iconClassName,
+            componentAliasFileNames
+        }
     });
 }
 
