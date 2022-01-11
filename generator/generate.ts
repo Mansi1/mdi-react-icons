@@ -74,7 +74,7 @@ const wait = async (milliseconds: number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-const iconRegistry: {[name: string]: boolean} = {};
+const iconRegistry: { [name: string]: boolean } = {};
 
 const retry = async <T>(type: string, fun: () => Promise<T> | T, tries: number = 0): Promise<T> => {
     try {
@@ -141,7 +141,7 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
         const svgPaths = await getSvgPath(rawSVG);
 
         const iconClassName = createIconName(metaData.name)
-        const componentAliasFileNames: Array< string> = [];
+        const componentAliasFileNames: Array<string> = [];
         const data: IconMustacheViewData = {...metaData, url, paths: svgPaths, iconClassName}
         const rendered = renderIcon(data);
         const componentFileName = `${iconClassName}.tsx`;
@@ -150,10 +150,10 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
         writeFileSync(componentPath, rendered);
 
         iconRegistry[iconClassName.toLowerCase()] = true;
-        data.aliases
-            .map((alias) => createIconName(alias))
-            .filter(aliasIconClassName => !iconRegistry[aliasIconClassName.toLowerCase()])
-            .forEach((aliasIconClassName) => {
+
+        for (let i = 0; i < data.aliases.length; i = i + 1) {
+            const aliasIconClassName = createIconName(data.aliases[i]);
+            if (!iconRegistry[aliasIconClassName.toLowerCase()]) {
                 const renderedAlias = renderAliasIcon({
                     ...data,
                     originalIconName: iconClassName,
@@ -165,7 +165,8 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
                 componentAliasFileNames.push(aliasIconClassName)
                 writeFileSync(componentAliasPath, renderedAlias);
                 iconRegistry[aliasIconClassName.toLowerCase()] = true;
-            })
+            }
+        }
 
         return {
             ...metaData,

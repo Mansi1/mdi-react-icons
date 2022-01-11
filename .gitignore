@@ -3,3 +3,4 @@
 /src/
 /.idea/
 /demo/src/generated/
+/demo/node_modules/
