@@ -36,7 +36,7 @@ jobs:
           path: dist_v5.tar
   npm-publish-material-v4:
     needs: [build]
-    name: npm-publish
+    name: npm-publish v4
     runs-on: ubuntu-latest
     # only on master
     if: github.ref == 'refs/heads/master'
@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   npm-publish-material-v5:
     needs: [build]
-    name: npm-publish
+    name: npm-publish v5
     runs-on: ubuntu-latest
     # only on master
     if: github.ref == 'refs/heads/master'

@@ -22,6 +22,7 @@
     "@types/react": "^16.9.50",
     "@types/xml2js": "^0.4.5",
     "mustache": "^4.0.1",
+    "ng-fetch": "^1.0.5",
     "node": "^14.13.0",
     "react": "15.6.2",
     "ts-node": "^9.0.0",
