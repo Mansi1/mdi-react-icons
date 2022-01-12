@@ -1,7 +1,7 @@
 import { atom } from 'nanostores'
-import {Icon} from "../interfaces/Icon";
-export type Version ={version: 'V4' | 'V5' | 'none'
-}
+
+export type Version ={version: 'V4' | 'V5' | 'none' }
+
 const getDefaultValue = ():Version=> {
     if (window.location.pathname.indexOf('/mui') >-1) {
         return{version: "V5"}

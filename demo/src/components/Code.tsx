@@ -22,7 +22,7 @@ export const Code = ({children,language = 'typescript'}: CodeProps) => {
 
     useEffect(() => {
         setValue(hljs.highlight(language, children))
-    }, [children, setValue])
+    }, [children, setValue, language])
 
     return (<div>
         <pre>

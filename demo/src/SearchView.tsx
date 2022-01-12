@@ -50,7 +50,7 @@ export const SearchView = () => {
         if (searchStore.get().status !== "LOADING" && !!searchValue  ) {
             searchStore.set({status: "LOADING"})
         }
-    }, []))
+    }, [searchValue]))
 
     useEffect(() => {
             triggerSearch();
