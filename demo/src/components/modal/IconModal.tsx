@@ -12,6 +12,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
+import {openUrlInNewTab} from "@milkscout/react";
 
 export const getDefaultArray = (arr: Array<any>, defaultElement: any) => {
     if (!arr || arr.length === 0) {
@@ -78,6 +79,12 @@ export const IconModal = () => {
                                     Tags
                                 </TableCell>
                                 <TableCell>{getDefaultArray(selectedIcon.tags, '-').join(' ')}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">
+                                    License
+                                </TableCell>
+                                <TableCell><div style={{cursor: 'pointer' }} onClick={() => openUrlInNewTab('https://github.com/Templarian/MaterialDesign/blob/master/LICENSE')}>click here</div></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
