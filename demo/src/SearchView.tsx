@@ -47,7 +47,7 @@ export const SearchView = () => {
             searchStore.set({status: "NONE"})
         }
     }, [searchValue]), 500, useCallback(() => {
-        if (searchStore.get().status !== "LOADING") {
+        if (searchStore.get().status !== "LOADING" && !!searchValue  ) {
             searchStore.set({status: "LOADING"})
         }
     }, []))

@@ -106,17 +106,10 @@ jobs:
           name: material-ui-v4
       - name: untar files
         run: tar -xvf dist_v4.tar
-      - name: update node_modules manually
-        working-directory: ./demo
-        run: |
-          yarn install
-          rm -rf node_modules/@material-ui-extra
-          mkdir -p node_modules/@material-ui-extra/icons
-          cp -arv ../dist_v4/*  node_modules/@material-ui-extra/icons
-          cp -arv ../dist_v4/*  node_modules/@material-ui-extra/icons
       - name: build demo project
         working-directory: ./demo
         run: |
+          yarn install
           yarn build
       - name: rename folder
         run: |

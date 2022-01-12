@@ -3,13 +3,14 @@ import AppBar from "@material-ui/core/AppBar";
 import {Container, InputAdornment, InputBase} from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import {openUrlInNewTab} from "@milkscout/react";
+import {openUrlInNewTab, View} from "@milkscout/react";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import {SearchIcon} from "@material-ui-extra/icons/SearchIcon";
 import {CloseIcon} from "@material-ui-extra/icons/CloseIcon";
 import IconButton from "@material-ui/core/IconButton";
-import {searchStore, searchTextStore} from "./store/searchStore";
+import {searchTextStore} from "./store/searchStore";
 import {useStore} from "@nanostores/react";
+import {versionStore} from "./store/versionStore";
 
 const getClasses = makeStyles((theme: Theme) => ({
     search: {
@@ -56,15 +57,24 @@ const getClasses = makeStyles((theme: Theme) => ({
 export const TopBar = () => {
     const classes = getClasses();
     const searchValue = useStore(searchTextStore)
-
+    const version = useStore(versionStore);
+   
     return (<AppBar position="fixed">
             <Container maxWidth={"lg"}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap
-                                onClick={() => openUrlInNewTab('https://www.npmjs.com/package/@material-ui-extra/icons')}>
+                    <View show={version.version === 'V4'}>
+                        <Typography variant="h6" noWrap
+                                onClick={() => openUrlInNewTab('https://www.npmjs.com/package/@material-ui-extra/icons/')}>
                         @material-ui-extra/icons
-                    </Typography>
-                    <div className={classes.search}>
+                        </Typography>
+                    </View>
+                    <View show={version.version === 'V5'}>
+                        <Typography variant="h6" noWrap
+                                onClick={() => openUrlInNewTab('https://www.npmjs.com/package/@mui-extra/icons/')}>
+                        @mui-extra/icons
+                        </Typography>
+                    </View>
+                    <div className={classes.search }>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>
@@ -77,7 +87,7 @@ export const TopBar = () => {
                                 input: classes.inputInput,
                             }}
                             inputProps={{'aria-label': 'search'}}
-                            endAdornment={
+                            endAdornment={ 
                                 <InputAdornment position={"end"}>
                                     <IconButton size={"small"} color={'inherit'} onClick={() => {
                                         searchTextStore.set('');

@@ -7,7 +7,8 @@
     "clean": "npx st-rm-rf public/assets src/generated",
     "start": "SKIP_PREFLIGHT_CHECK=true && react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true && react-scripts build",
-    "prebuild": "npx st-cp ../dist_v4/assets public/ && npx st-cp ../dist_v4/meta.json src/generated/  && node generate.js "
+    "preprebuild": "npx st-rm-rf node_modules/@material-ui-extra public/assets && mkdir -p node_modules/@material-ui-extra && mv ../dist_v4/assets public/assets && mv ../dist_v4 node_modules/@material-ui-extra/icons",
+    "prebuild": "node generate.js"
   },
   "dependencies": {
     "@date-io/core": "^1.x",

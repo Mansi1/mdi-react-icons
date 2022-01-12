@@ -35,6 +35,8 @@ export interface IconData {
     tags: string[];
     author: string;
     version: string;
+    iconCreateName: string | undefined;
+    iconAliasCreateNames: Array<string>;
 }
 
 export const iife = (fun: () => unknown) => {
@@ -79,7 +81,7 @@ const wait = async (milliseconds: number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-const iconRegistry: { [name: string]: boolean } = {};
+const ICON_NAME_REGISTRY: { [name: string]: boolean } = {};
 
 const retry = async <T>(type: string, fun: () => Promise<T> | T, tries: number = 0): Promise<T> => {
     try {
@@ -156,7 +158,7 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
         const rawSVG = await retry('download ' + metaData.name, async () => download(url));
         const svgPaths = await getSvgPath(rawSVG);
 
-        const iconClassName = createIconName(metaData.name)
+        const iconClassName = metaData.iconCreateName
         const componentAliasFileNames: Array<string> = [];
         const data: IconMustacheViewData = {...metaData, url, paths: svgPaths, iconClassName}
         const renderedV4 = renderIconV4(data);
@@ -166,29 +168,24 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
         const componentPathV5 = join(V5_ICONS_PATH, componentFileName);
         writeFileSync(assetsSVGFileV4, rawSVG);
         writeFileSync(componentPathV4, renderedV4);
-        
+
         writeFileSync(assetsSVGFileV5, rawSVG);
         writeFileSync(componentPathV5, renderedV5);
 
-        iconRegistry[iconClassName.toLowerCase()] = true;
+        for (let i = 0; i < metaData.iconAliasCreateNames.length; i = i + 1) {
+            const aliasIconClassName = metaData.iconAliasCreateNames[i];
+            const renderedAlias = renderAliasIcon({
+                ...data,
+                originalIconName: iconClassName,
+                iconAliasClassName: aliasIconClassName,
+            });
 
-        for (let i = 0; i < data.aliases.length; i = i + 1) {
-            const aliasIconClassName = createIconName(data.aliases[i]);
-            if (!iconRegistry[aliasIconClassName.toLowerCase()]) {
-                const renderedAlias = renderAliasIcon({
-                    ...data,
-                    originalIconName: iconClassName,
-                    iconAliasClassName: aliasIconClassName,
-                });
-
-                const componentAliasFileName = `${aliasIconClassName}.tsx`;
-                const componentAliasPathV4 = join(V4_ICONS_PATH, componentAliasFileName);
-                const componentAliasPathV5 = join(V5_ICONS_PATH, componentAliasFileName);
-                componentAliasFileNames.push(aliasIconClassName)
-                writeFileSync(componentAliasPathV4, renderedAlias);
-                writeFileSync(componentAliasPathV5, renderedAlias);
-                iconRegistry[aliasIconClassName.toLowerCase()] = true;
-            }
+            const componentAliasFileName = `${aliasIconClassName}.tsx`;
+            const componentAliasPathV4 = join(V4_ICONS_PATH, componentAliasFileName);
+            const componentAliasPathV5 = join(V5_ICONS_PATH, componentAliasFileName);
+            componentAliasFileNames.push(aliasIconClassName)
+            writeFileSync(componentAliasPathV4, renderedAlias);
+            writeFileSync(componentAliasPathV5, renderedAlias);
         }
 
         return {
@@ -202,9 +199,35 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
 
 iife(async () => {
     console.log('start material ui icons generation')
-    const icons: Array<IconData> = await getMetaDataJSON();
+    const rawIcons: Array<IconData> = await getMetaDataJSON();
     console.log('downloaded meta data')
 
+    for (let i = 0; i < rawIcons.length; i++) {
+        const icon = rawIcons[i]
+        const iconCreateName = createIconName(icon.name);
+        if (!ICON_NAME_REGISTRY[iconCreateName.toLowerCase()]) {
+            ICON_NAME_REGISTRY[iconCreateName.toLowerCase()] = true;
+            icon.iconCreateName = iconCreateName
+        }else{
+            console.warn('Icon was ignored, because already exist with this name ('+ iconCreateName+ ')')
+        }
+    }
+    
+    for (let i = 0; i < rawIcons.length; i++) {
+        const icon = rawIcons[i]
+        const iconCreateNames = icon.aliases.map((name) => createIconName(name));
+        const iconAliasCreateNames = []
+        for (let a = 0; a < iconCreateNames.length; a++) {
+            const iconName = iconCreateNames[a];
+            if (!ICON_NAME_REGISTRY[iconName.toLowerCase()]) {
+                ICON_NAME_REGISTRY[iconName.toLowerCase()] = true;
+                iconAliasCreateNames.push(iconName)
+            }
+        }
+        icon.iconAliasCreateNames = iconAliasCreateNames
+    }
+
+    const icons = rawIcons.filter(i => !!i.iconCreateName);
     const totalSize = icons.length;
     const chunks: Array<Array<IconData>> = chunk(icons);
     const createdIcons: Array<WriteIcon> = [];
@@ -217,18 +240,23 @@ iife(async () => {
     }
     console.log(downloaded + '/' + totalSize + ' downloaded files')
 
-    const metaJSON = JSON.stringify(createdIcons);
-    const {version} = JSON.parse(readFileSync(V4_PROJECT_PACKAGE_JSON).toString());
+    const metaJSON = JSON.stringify(createdIcons, null, 2);
+    const {version: V4Version} = JSON.parse(readFileSync(V4_PROJECT_PACKAGE_JSON).toString());
+    const {version: V5Version} = JSON.parse(readFileSync(V5_PROJECT_PACKAGE_JSON).toString());
     const contentHash = crypto.createHash('md5').update(metaJSON).digest("hex");
-    
-    const versionContent = JSON.stringify({
-        build: (new Date()).toISOString(),
+    const build = (new Date()).toISOString();
+
+    writeFileSync(V4_VERSION, JSON.stringify({
+        build,
         contentHash: contentHash,
-        projectVersion: version
-    })
-    
-    writeFileSync(V4_VERSION, versionContent);
-    writeFileSync(V5_VERSION, versionContent);
+        projectVersion: V4Version
+    }));
+
+    writeFileSync(V5_VERSION, JSON.stringify({
+        build,
+        contentHash: contentHash,
+        projectVersion: V5Version
+    }));
 
     writeFileSync(V4_METADATA_JSON, metaJSON);
     writeFileSync(V5_METADATA_JSON, metaJSON);
