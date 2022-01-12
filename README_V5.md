@@ -1,4 +1,4 @@
-#@material-ui-extra/icons
+#@mui-extra/icons
 
 for material-ui v4 <a href="https://www.npmjs.com/package/@material-ui-extra/icons">click here</a>
 
