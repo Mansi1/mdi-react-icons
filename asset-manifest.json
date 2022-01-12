@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.js": "/mdi-react-icons/static/js/main.8317f795.chunk.js",
-    "main.js.map": "/mdi-react-icons/static/js/main.8317f795.chunk.js.map",
+    "main.js": "/mdi-react-icons/static/js/main.63ff6735.chunk.js",
+    "main.js.map": "/mdi-react-icons/static/js/main.63ff6735.chunk.js.map",
     "runtime-main.js": "/mdi-react-icons/static/js/runtime-main.829da788.js",
     "runtime-main.js.map": "/mdi-react-icons/static/js/runtime-main.829da788.js.map",
     "static/css/2.445f94b6.chunk.css": "/mdi-react-icons/static/css/2.445f94b6.chunk.css",
-    "static/js/2.2ec5816f.chunk.js": "/mdi-react-icons/static/js/2.2ec5816f.chunk.js",
-    "static/js/2.2ec5816f.chunk.js.map": "/mdi-react-icons/static/js/2.2ec5816f.chunk.js.map",
+    "static/js/2.d272d19c.chunk.js": "/mdi-react-icons/static/js/2.d272d19c.chunk.js",
+    "static/js/2.d272d19c.chunk.js.map": "/mdi-react-icons/static/js/2.d272d19c.chunk.js.map",
     "index.html": "/mdi-react-icons/index.html",
-    "precache-manifest.e329506edb4461ba12945eeb9502b7e1.js": "/mdi-react-icons/precache-manifest.e329506edb4461ba12945eeb9502b7e1.js",
+    "precache-manifest.cfb1cd8fd3fe796518d4336eaf9493a7.js": "/mdi-react-icons/precache-manifest.cfb1cd8fd3fe796518d4336eaf9493a7.js",
     "service-worker.js": "/mdi-react-icons/service-worker.js",
     "static/css/2.445f94b6.chunk.css.map": "/mdi-react-icons/static/css/2.445f94b6.chunk.css.map",
-    "static/js/2.2ec5816f.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.2ec5816f.chunk.js.LICENSE.txt"
+    "static/js/2.d272d19c.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.d272d19c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.829da788.js",
     "static/css/2.445f94b6.chunk.css",
-    "static/js/2.2ec5816f.chunk.js",
-    "static/js/main.8317f795.chunk.js"
+    "static/js/2.d272d19c.chunk.js",
+    "static/js/main.63ff6735.chunk.js"
   ]
 }
