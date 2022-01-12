@@ -33,15 +33,19 @@ export const SearchView = () => {
     const searchValue = useStore(searchTextStore)
 
     const triggerSearch = useDebounceFunction(useCallback(() => {
-        const result = searchIndex.search(searchValue, {
-            fields: {
-                name: {boost: 2},
-                aliases: {boost: 2},
-                tags: {boost: 1},
-            },
-            expand: true,
-        });
-        searchStore.set({status: "DONE", search: searchValue, data: result})
+        if(!!searchValue) {
+            const result = searchIndex.search(searchValue, {
+                fields: {
+                    name: {boost: 2},
+                    aliases: {boost: 2},
+                    tags: {boost: 1},
+                },
+                expand: true,
+            });
+            searchStore.set({status: "DONE", search: searchValue, data: result})
+        }else{
+            searchStore.set({status: "NONE"})
+        }
     }, [searchValue]), 500, useCallback(() => {
         if (searchStore.get().status !== "LOADING") {
             searchStore.set({status: "LOADING"})
@@ -49,11 +53,7 @@ export const SearchView = () => {
     }, []))
 
     useEffect(() => {
-        if (!!searchValue) {
             triggerSearch();
-        } else {
-            searchStore.set({status: "NONE"})
-        }
     }, [searchValue, triggerSearch])
 
     return (<>
