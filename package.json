@@ -2,15 +2,16 @@
   "name": "mdi-react-icons",
   "version": "0.1.4",
   "scripts": {
-    "clean": "npx st-rm-rf dist src",
+    "clean": "npx st-rm-rf dist dist_v4 dist_v5 src src_v4 src_v5",
     "prebuild-mat": "yarn clean",
-    "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts && tsc",
-    "postbuild-mat": "npx st-cp LICENSE README.md src/meta.json src/assets src/version.json dist && ts-node --project tsconfig.node.json generator/copyPackage.ts"
+    "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts  && tsc --project tsconfig.v4.json  && tsc --project tsconfig.v5.json",
+    "postbuild-mat": "ts-node --project tsconfig.node.json generator/copyPackage.ts"
   },
   "author": "Michael Mannseicher",
   "dependencies": {
     "@material-ui/core": "^4.0.0",
-    "ng-fetch": "^1.0.5"
+    "@mui/material": "^5.2.8",
+    "st-cp": "^2.0.0-beta.2"
   },
   "peerDependencies": {
     "react": "^16.0.0"

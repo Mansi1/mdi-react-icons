@@ -41,8 +41,13 @@ export const iife = (fun: () => unknown) => {
     fun()
 }
 
-export const renderIcon = (viewData: IconMustacheViewData) => {
-    const templatePath = join(__dirname, 'icon-template.mustache');
+export const renderIconV4 = (viewData: IconMustacheViewData) => {
+    const templatePath = join(__dirname, 'icon-template-v4.mustache');
+    const templateString = readFileSync(templatePath).toString('utf8')
+    return render(templateString, viewData);
+}
+export const renderIconV5 = (viewData: IconMustacheViewData) => {
+    const templatePath = join(__dirname, 'icon-template-v5.mustache');
     const templateString = readFileSync(templatePath).toString('utf8')
     return render(templateString, viewData);
 }
@@ -93,15 +98,25 @@ const retry = async <T>(type: string, fun: () => Promise<T> | T, tries: number =
 const getMetaDataJSON = async () => {
     return JSON.parse(await download('https://raw.githubusercontent.com/Templarian/MaterialDesign/master/meta.json'));
 }
-const SRC_PATH = join(__dirname, '..', 'src');
-const PROJECT_PACKAGE_JSON = join(__dirname, '..', 'package.json');
-const ASSETS_PATH = join(SRC_PATH, 'assets');
-const METADATA_JSON = join(SRC_PATH, 'meta.json');
-const VERSION = join(SRC_PATH, 'version.json');
-const ICONS_PATH = join(SRC_PATH, 'icons');
+const V4_SRC_PATH = join(__dirname, '..', 'src_v4');
+const V4_PROJECT_PACKAGE_JSON = join(__dirname, '..', 'package.json');
+const V4_ASSETS_PATH = join(V4_SRC_PATH, 'assets');
+const V4_METADATA_JSON = join(V4_SRC_PATH, 'meta.json');
+const V4_VERSION = join(V4_SRC_PATH, 'version.json');
+const V4_ICONS_PATH = join(V4_SRC_PATH, 'icons');
 
-mkdirSync(ASSETS_PATH, {recursive: true});
-mkdirSync(ICONS_PATH, {recursive: true});
+const V5_SRC_PATH = join(__dirname, '..', 'src_v5');
+const V5_PROJECT_PACKAGE_JSON = join(__dirname, '..', 'package.json');
+const V5_ASSETS_PATH = join(V5_SRC_PATH, 'assets');
+const V5_METADATA_JSON = join(V5_SRC_PATH, 'meta.json');
+const V5_VERSION = join(V5_SRC_PATH, 'version.json');
+const V5_ICONS_PATH = join(V5_SRC_PATH, 'icons');
+
+mkdirSync(V4_ASSETS_PATH, {recursive: true});
+mkdirSync(V4_ICONS_PATH, {recursive: true});
+
+mkdirSync(V5_ASSETS_PATH, {recursive: true});
+mkdirSync(V5_ICONS_PATH, {recursive: true});
 
 const chunk = (arr: Array<any>, size = 500): Array<Array<any>> => {
     const results = [];
@@ -135,7 +150,8 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
     return retry('process ' + metaData.name, async () => {
 
         const url = `https://raw.githubusercontent.com/Templarian/MaterialDesign/master/svg/${metaData.name}.svg`;
-        const assetsSVGFile = join(ASSETS_PATH, `${metaData.name}.svg`);
+        const assetsSVGFileV4 = join(V4_ASSETS_PATH, `${metaData.name}.svg`);
+        const assetsSVGFileV5 = join(V5_ASSETS_PATH, `${metaData.name}.svg`);
 
         const rawSVG = await retry('download ' + metaData.name, async () => download(url));
         const svgPaths = await getSvgPath(rawSVG);
@@ -143,11 +159,16 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
         const iconClassName = createIconName(metaData.name)
         const componentAliasFileNames: Array<string> = [];
         const data: IconMustacheViewData = {...metaData, url, paths: svgPaths, iconClassName}
-        const rendered = renderIcon(data);
+        const renderedV4 = renderIconV4(data);
+        const renderedV5 = renderIconV5(data);
         const componentFileName = `${iconClassName}.tsx`;
-        const componentPath = join(ICONS_PATH, componentFileName);
-        writeFileSync(assetsSVGFile, rawSVG);
-        writeFileSync(componentPath, rendered);
+        const componentPathV4 = join(V4_ICONS_PATH, componentFileName);
+        const componentPathV5 = join(V5_ICONS_PATH, componentFileName);
+        writeFileSync(assetsSVGFileV4, rawSVG);
+        writeFileSync(componentPathV4, renderedV4);
+        
+        writeFileSync(assetsSVGFileV5, rawSVG);
+        writeFileSync(componentPathV5, renderedV5);
 
         iconRegistry[iconClassName.toLowerCase()] = true;
 
@@ -161,16 +182,18 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
                 });
 
                 const componentAliasFileName = `${aliasIconClassName}.tsx`;
-                const componentAliasPath = join(ICONS_PATH, componentAliasFileName);
+                const componentAliasPathV4 = join(V4_ICONS_PATH, componentAliasFileName);
+                const componentAliasPathV5 = join(V5_ICONS_PATH, componentAliasFileName);
                 componentAliasFileNames.push(aliasIconClassName)
-                writeFileSync(componentAliasPath, renderedAlias);
+                writeFileSync(componentAliasPathV4, renderedAlias);
+                writeFileSync(componentAliasPathV5, renderedAlias);
                 iconRegistry[aliasIconClassName.toLowerCase()] = true;
             }
         }
 
         return {
             ...metaData,
-            assetsUrl: relative(SRC_PATH, assetsSVGFile),
+            assetsUrl: relative(V4_SRC_PATH, assetsSVGFileV4),
             componentFileName: iconClassName,
             componentAliasFileNames
         }
@@ -195,14 +218,19 @@ iife(async () => {
     console.log(downloaded + '/' + totalSize + ' downloaded files')
 
     const metaJSON = JSON.stringify(createdIcons);
-    const {version} = JSON.parse(readFileSync(PROJECT_PACKAGE_JSON).toString());
+    const {version} = JSON.parse(readFileSync(V4_PROJECT_PACKAGE_JSON).toString());
     const contentHash = crypto.createHash('md5').update(metaJSON).digest("hex");
-
-    writeFileSync(VERSION, JSON.stringify({
+    
+    const versionContent = JSON.stringify({
         build: (new Date()).toISOString(),
         contentHash: contentHash,
         projectVersion: version
-    }));
-    writeFileSync(METADATA_JSON, metaJSON);
+    })
+    
+    writeFileSync(V4_VERSION, versionContent);
+    writeFileSync(V5_VERSION, versionContent);
+
+    writeFileSync(V4_METADATA_JSON, metaJSON);
+    writeFileSync(V5_METADATA_JSON, metaJSON);
     console.log('generation done')
 });

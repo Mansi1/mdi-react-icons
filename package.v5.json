@@ -1,0 +1,30 @@
+{
+  "name": "@mui-extra/icons",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "@mui-extra",
+    "@mui-extra/icons",
+    "icons",
+    "mui/icons",
+    "mdi icons",
+    "material ui icons",
+    "material icons",
+    "mui icons"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mansi1/mdi-react-icons.git"
+  },
+  "license": "MIT",
+  "author": "Michael Mannseicher",
+  "bugs": {
+    "url": "https://github.com/Mansi1/mdi-react-icons/issues"
+  },
+  "peerDependencies": {
+    "@mui/material": "^5.2.8",
+    "react": "^17.0.2"
+  }
+}

@@ -3,10 +3,13 @@
     "target": "es5",
     "moduleResolution": "node",
     "module": "commonjs",
-    "outDir": "build",
+    "outDir": "dist_v4",
     "strict": false,
     "declaration": true,
     "noEmit": false,
+    "rootDirs": [
+      "src_v4"
+    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
@@ -18,13 +21,10 @@
     "types": ["node"]
   },
   "include": [
-    "generator"
+    "src"
   ],
   "exclude": [
-    "dist_v4",
-    "dist_v5",
-    "src_v4",
-    "src_v5",
+    "dist",
     "node_modules"
   ]
 }

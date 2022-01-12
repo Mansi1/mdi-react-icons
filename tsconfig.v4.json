@@ -6,7 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "outDir": "dist",
+    "outDir": "dist_v4",
     "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
@@ -26,9 +26,10 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist_v5",
+    "dist_v4"
   ],
   "include": [
-    "src"
+    "src_v4"
   ]
 }

@@ -20,14 +20,21 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}          
       - run: yarn install
       - run: yarn build-mat
-      - name: tar files
-        run: tar -cvf dist.tar dist
+      - name: tar files material-ui v4
+        run: tar -cvf dist_v4.tar dist_v4
+      - name: tar files material-ui v5
+        run: tar -cvf dist_v5.tar dist_v5
       - name: Add artifact to github
         uses: actions/upload-artifact@v2
         with:
-          name: material-ui
-          path: dist.tar
-  npm-publish:
+          name: material-ui-v4
+          path: dist_v4.tar
+      - name: Add artifact to github
+        uses: actions/upload-artifact@v2
+        with:
+          name: material-ui-v5
+          path: dist_v5.tar
+  npm-publish-material-v4:
     needs: [build]
     name: npm-publish
     runs-on: ubuntu-latest
@@ -41,14 +48,40 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v2
         with:
-          name: material-ui
+          name: material-ui-v4
       - name: untar files
-        run: tar -xvf dist.tar
+        run: tar -xvf dist_v4.tar
       - name: Publish if version in package.json change
         uses: springtype-org/github-action-npm-publish@master
         with:
           install_build_packages: true
-          project_build_dir: dist
+          project_build_dir: dist_v4
+          create_tag: true
+          auth_token: ${{ secrets.npm_token }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  npm-publish-material-v5:
+    needs: [build]
+    name: npm-publish
+    runs-on: ubuntu-latest
+    # only on master
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: material-ui-v5
+      - name: untar files
+        run: tar -xvf dist_v5.tar
+      - name: Publish if version in package.json change
+        uses: springtype-org/github-action-npm-publish@master
+        with:
+          install_build_packages: true
+          project_build_dir: dist_v5
           create_tag: true
           auth_token: ${{ secrets.npm_token }}
         env:
