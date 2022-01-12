@@ -5,7 +5,7 @@ const path = require('path');
 const metaJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'node_modules', '@material-ui-extra', 'icons', 'meta.json')))
 const lines = [];
 lines.push('import {Icon} from "./../interfaces/Icon";')
-lines.push('import DATA from "./meta.json"')
+lines.push('import DATA from "@material-ui-extra/icons/meta.json";')
 lines.push('import {getIdentityMap} from "@milkscout/react";')
 lines.push('import {getIdentityArrayMap} from "../functions/getIdentityArrayMap";')
 lines.push('')

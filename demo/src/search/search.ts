@@ -1,5 +1,5 @@
 import elasticlunr from "elasticlunr";
-import metaJson from "../generated/meta.json"
+import metaJson from "@material-ui-extra/icons/meta.json"
 
 type Data = {id: string; name: string; aliases: Array<string>; tags: Array<string>};
 

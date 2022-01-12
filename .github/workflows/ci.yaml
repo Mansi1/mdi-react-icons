@@ -103,16 +103,17 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v2
         with:
-          name: material-ui
+          name: material-ui-v4
       - name: untar files
-        run: tar -xvf dist.tar
+        run: tar -xvf dist_v4.tar
       - name: update node_modules manually
         working-directory: ./demo
         run: |
           yarn install
           rm -rf node_modules/@material-ui-extra
           mkdir -p node_modules/@material-ui-extra/icons
-          cp -arv ../dist/*  node_modules/@material-ui-extra/icons
+          cp -arv ../dist_v4/*  node_modules/@material-ui-extra/icons
+          cp -arv ../dist_v4/*  node_modules/@material-ui-extra/icons
       - name: build demo project
         working-directory: ./demo
         run: |
