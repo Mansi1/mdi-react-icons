@@ -7,7 +7,7 @@ import { TAG_ARRAY_MAP } from './generated/iconMap';
 import { TAG_VALUES } from './generated/iconMap';
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import { useStore } from '@nanostores/react';
-import { searchTextStore } from './store/searchStore';
+import {searchStore } from './store/searchStore';
 
 const getClasses = makeStyles((theme: Theme) => ({
     root: {
@@ -19,8 +19,8 @@ const getClasses = makeStyles((theme: Theme) => ({
 
 export const GroupView = () => {
     const classes = getClasses();
-    const searchValue = useStore(searchTextStore)
-    return ( <ViewContainer show={!searchValue}>
+    const searchResult = useStore(searchStore)
+    return ( <ViewContainer show={searchResult.status === 'NONE'}>
       {TAG_VALUES.filter(tag => !!TAG_ARRAY_MAP[tag]).map((tag) => {
           return <div key={'tag-' + tag}>
               <Tag name={tag}/>

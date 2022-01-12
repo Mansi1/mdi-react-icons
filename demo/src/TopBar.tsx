@@ -81,7 +81,7 @@ export const TopBar = () => {
                                 <InputAdornment position={"end"}>
                                     <IconButton size={"small"} color={'inherit'} onClick={() => {
                                         searchTextStore.set('');
-                                        searchStore.set(undefined)
+                                        searchStore.set({status: 'NONE'})
                                     }}>
                                         <CloseIcon/>
                                     </IconButton>
