@@ -14,7 +14,7 @@ const V4_DIST_PATH = path.join(__dirname, '..', 'dist_v4')
 const V4_README = path.join(__dirname, '..', 'README_V4.md')
 
 const V5_PACKAGE_NAME = "@mui-extra/icons"
-const V5_SOURCE_PATH = path.join(__dirname, '..', 'src_v4')
+const V5_SOURCE_PATH = path.join(__dirname, '..', 'src_v5')
 const V5_PACKAGE_MATERIAL_UI_PATH = path.join(__dirname, '..', 'package.v5.json')
 const V5_DIST_PATH = path.join(__dirname, '..', 'dist_v5')
 const V5_README = path.join(__dirname, '..', 'README_V5.md')

@@ -4,11 +4,10 @@
   "main": "index.js",
   "homepage": "https://mansi1.github.io/mdi-react-icons/",
   "scripts": {
-    "clean": "npx st-rm-rf public/assets src/generated",
+    "clean": "npx st-rm-rf node_modules/@material-ui-extra public/assets",
     "start": "SKIP_PREFLIGHT_CHECK=true && react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true && react-scripts build",
-    "preprebuild": "npx st-rm-rf node_modules/@material-ui-extra public/assets && mkdir -p node_modules/@material-ui-extra && mv ../dist_v4/assets public/assets && mv ../dist_v4 node_modules/@material-ui-extra/icons",
-    "prebuild": "node generate.js"
+    "prebuild": "mkdir -p node_modules/@material-ui-extra && mv ../dist_v4/assets public/assets && mv ../dist_v4 node_modules/@material-ui-extra/icons && node generate.js"
   },
   "dependencies": {
     "@date-io/core": "^1.x",
