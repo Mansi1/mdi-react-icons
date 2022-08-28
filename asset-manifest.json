@@ -5,18 +5,18 @@
     "runtime-main.js": "/mdi-react-icons/static/js/runtime-main.829da788.js",
     "runtime-main.js.map": "/mdi-react-icons/static/js/runtime-main.829da788.js.map",
     "static/css/2.445f94b6.chunk.css": "/mdi-react-icons/static/css/2.445f94b6.chunk.css",
-    "static/js/2.2beca4cf.chunk.js": "/mdi-react-icons/static/js/2.2beca4cf.chunk.js",
-    "static/js/2.2beca4cf.chunk.js.map": "/mdi-react-icons/static/js/2.2beca4cf.chunk.js.map",
+    "static/js/2.8f02e7b3.chunk.js": "/mdi-react-icons/static/js/2.8f02e7b3.chunk.js",
+    "static/js/2.8f02e7b3.chunk.js.map": "/mdi-react-icons/static/js/2.8f02e7b3.chunk.js.map",
     "index.html": "/mdi-react-icons/index.html",
-    "precache-manifest.bad577848de43d69449f502f6aa43e4c.js": "/mdi-react-icons/precache-manifest.bad577848de43d69449f502f6aa43e4c.js",
+    "precache-manifest.59fe6e1954d0d4f4f20346d6caaf8f6c.js": "/mdi-react-icons/precache-manifest.59fe6e1954d0d4f4f20346d6caaf8f6c.js",
     "service-worker.js": "/mdi-react-icons/service-worker.js",
     "static/css/2.445f94b6.chunk.css.map": "/mdi-react-icons/static/css/2.445f94b6.chunk.css.map",
-    "static/js/2.2beca4cf.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.2beca4cf.chunk.js.LICENSE.txt"
+    "static/js/2.8f02e7b3.chunk.js.LICENSE.txt": "/mdi-react-icons/static/js/2.8f02e7b3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.829da788.js",
     "static/css/2.445f94b6.chunk.css",
-    "static/js/2.2beca4cf.chunk.js",
+    "static/js/2.8f02e7b3.chunk.js",
     "static/js/main.8f39fe71.chunk.js"
   ]
 }
