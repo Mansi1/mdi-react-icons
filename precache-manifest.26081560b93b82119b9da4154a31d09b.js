@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "76d0d777b6e6e56af19d9bfef4c0d76b",
+    "revision": "54f4e2afdc5caf5a85becf4db6b8dad8",
     "url": "/mdi-react-icons/index.html"
   },
   {
-    "revision": "ee01e68f714c639de97e",
+    "revision": "f156f1e3d3f2ac50a43e",
     "url": "/mdi-react-icons/static/css/2.445f94b6.chunk.css"
   },
   {
-    "revision": "ee01e68f714c639de97e",
-    "url": "/mdi-react-icons/static/js/2.cff31dfc.chunk.js"
+    "revision": "f156f1e3d3f2ac50a43e",
+    "url": "/mdi-react-icons/static/js/2.2e98a066.chunk.js"
   },
   {
     "revision": "15afc38dfff11f7cf6e0e4508fa70f0c",
-    "url": "/mdi-react-icons/static/js/2.cff31dfc.chunk.js.LICENSE.txt"
+    "url": "/mdi-react-icons/static/js/2.2e98a066.chunk.js.LICENSE.txt"
   },
   {
     "revision": "18be9dbd6eb1d8200d91",
