@@ -116,8 +116,7 @@ jobs:
           cp demo/build/index.html demo/build/404.html
           mv demo/build docs
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs  # default: public
-          exclude_assets: ''
+          token: ${{ secrets.GITHUB_TOKEN }}
+          folder: ./docs  # default: public
