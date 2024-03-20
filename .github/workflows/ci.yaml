@@ -115,8 +115,9 @@ jobs:
         run: |
           cp demo/build/index.html demo/build/404.html
           mv demo/build docs
+          ls -lisha docs
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          folder: ./docs  # default: public
+          folder: docs
