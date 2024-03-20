@@ -118,7 +118,7 @@ jobs:
         run: |
           cp demo/build/index.html demo/build/404.html
           mv demo/build docs
-          tree -I node_modules      
+          tree -I 'node_modules|demo'      
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
