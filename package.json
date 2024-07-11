@@ -1,9 +1,13 @@
 {
   "name": "mdi-react-icons",
   "version": "0.1.4",
+  "engines": {
+    "node": ">=12 <17"
+  },
   "scripts": {
-    "clean": "npx st-rm-rf dist dist_v4 dist_v5 src src_v4 src_v5",
-    "prebuild-mat": "yarn clean",
+    "clean-mat": "npx st-rm-rf dist dist_v4 dist_v5 src src_v4/meta.json src_v4/icons src_v5",
+    "prebuild-mat": "yarn clean-mat",
+    "test": "ts-node --project tsconfig.node.json generator/setup.ts",
     "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts  && tsc --project tsconfig.v4.json  && tsc --project tsconfig.v5.json",
     "postbuild-mat": "ts-node --project tsconfig.node.json generator/copyPackage.ts"
   },
@@ -11,22 +15,27 @@
   "dependencies": {
     "@material-ui/core": "^4.0.0",
     "@mui/material": "^5.2.8",
-    "st-cp": "^2.0.0-beta.2"
+    "fast-xml-parser": "^4.4.0",
+    "handlebars": "^4.7.8",
+    "hash-file": "^3.0.0",
+    "node": "^18.20.4",
+    "path-that-svg": "^1.2.4",
+    "simple-git": "^3.25.0",
+    "st-cp": "^2.0.0-beta.2",
+    "svg-path-converter": "^1.0.12",
+    "svgson": "^5.3.1"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
-    "@types/mustache": "^4.0.1",
     "@types/node": "^14.11.2",
     "@types/react": "^16.9.50",
     "@types/xml2js": "^0.4.5",
-    "mustache": "^4.0.1",
     "ng-fetch": "^1.0.5",
-    "node": "^14.13.0",
     "react": "15.6.2",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.3",
+    "typescript": "^5.5.2",
     "xml2js": "^0.4.23"
   }
 }

@@ -2,12 +2,11 @@
 /node_modules/
 /src/
 /.idea/
+/.vscode/
 /demo/src/generated/
 /demo/node_modules/
 /demo/public/assets/
 /demo/public/dist/
 /demo/build/
-/src_v4/
-/src_v5/
-/dist_v5/
-/dist_v4/
+/icons/
+.DS_Store 

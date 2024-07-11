@@ -10,5 +10,6 @@ import createSvgIcon from "@mui/material/utils/createSvgIcon";
  * tags{{#tags}}
  * - {{{.}}} {{/tags}}
  */
-export const {{iconClassName}} = createSvgIcon(<>{{#paths}}<path d="{{{.}}}" />{{/paths}}</>, '{{iconClassName}}');
+
+export const {{iconClassName}} = createSvgIcon({{{svg}}}, '{{iconClassName}}');
 export default {{iconClassName}}

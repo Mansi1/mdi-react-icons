@@ -11,6 +11,8 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "downlevelIteration":true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "lib": [
       "dom",
       "es2017"
