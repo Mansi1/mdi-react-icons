@@ -42,8 +42,10 @@ lines.push('    return \'NONE\'')
 lines.push('});')
 
 const generationPath = path.join(__dirname, 'src', 'generated');
+const publicPath = path.join(__dirname, 'public');
 
 
 fs.mkdirSync(generationPath, {recursive: true})
 
 fs.writeFileSync(path.join(generationPath, 'iconMap.tsx'), lines.join('\n'))
+fs.writeFileSync(path.join(publicPath, 'info.json'), JSON.stringify({ date: new Date()}))
