@@ -6,7 +6,7 @@ import * as crypto from 'crypto';
 
 import { join, relative } from 'path';
 
-import ICON_CONFIG from './config';
+import ICON_CONFIG, { DEFAULT_KEYWORDS_V4 } from './config';
 
 import {
   readdirSync,
@@ -19,6 +19,7 @@ import {
 import { compileIcons } from './compile';
 import { getSvg } from './ getSvg';
 import { IconConfig, SvgMeta } from './config';
+import { copySoureFiles } from './copySourceFiles';
 const git = simpleGit();
 
 export const RESPOSITORY_FOLDER = join(__dirname, '..', 'icons', 'repository');
@@ -32,7 +33,16 @@ const cloneGitRepo = async (gitUrl: string, desinationPath: string) => {
     console.log('- path ' + desinationPath);
     await git.clone(gitUrl, desinationPath, ['--depth', '1']);
   } catch (err) {
-    console.error('- error cloning!');
+    if (
+      typeof err.message === 'string' &&
+      err.message
+        .trim()
+        .endsWith('already exists and is not an empty directory.')
+    ) {
+      console.error('- already cloned');
+    } else {
+      throw err;
+    }
   }
 };
 
@@ -146,11 +156,6 @@ export const renderAliasIcon = (
 };
 
 const setup = async () => {
-  rmdirSync(SOURCE_FOLDER, { recursive: true });
-  rmdirSync(DIST_FOLDER, { recursive: true });
-
-  mkdirSync(SOURCE_FOLDER, { recursive: true });
-
   for (const config of ICON_CONFIG) {
     const iconRegistry = new Set<string>();
     const icons: any[] = [];
@@ -246,7 +251,7 @@ const setup = async () => {
         );
         writeFileSync(
           join(assetIconsV5, aliasClassName + '.tsx'),
-          aliasClassName
+          aliasContent
         );
       });
 
@@ -263,14 +268,21 @@ const setup = async () => {
     writeFileSync(join(projectFolderV5, 'meta.json'), metaJson);
 
     console.log('- start compiling');
-    compileIcons(
-      projectFolderV4,
-      join(DIST_FOLDER, `v4`, config.repoFolderName)
-    );
-    compileIcons(
-      projectFolderV5,
-      join(DIST_FOLDER, `v5`, config.repoFolderName)
-    );
+    const distPathV4 = join(DIST_FOLDER, `v4`, config.repoFolderName);
+    const distPathV5 = join(DIST_FOLDER, `v5`, config.repoFolderName);
+    compileIcons(projectFolderV4, distPathV4);
+    compileIcons(projectFolderV5, distPathV5);
+
+    copySoureFiles({
+      packageInfo: {
+        name: config.packageV4.name,
+        keywords: [config.name, ...DEFAULT_KEYWORDS_V4],
+        peerDependencies: { '@material-ui/core': '^4.0.0' },
+        version: config.packageV4.version,
+      },
+      sourcePath: projectFolderV4,
+      distPath: distPathV4,
+    });
   }
 };
 setup();

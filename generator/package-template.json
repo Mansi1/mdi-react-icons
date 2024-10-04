@@ -1,0 +1,21 @@
+{
+    "name": "todo",
+    "version": "todo",
+    "keywords": [],
+    "publishConfig": {
+      "access": "public"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Mansi1/mdi-react-icons.git"
+    },
+    "license": "MIT",
+    "author": "Michael Mannseicher",
+    "bugs": {
+      "url": "https://github.com/Mansi1/mdi-react-icons/issues"
+    },
+    "peerDependencies": {
+      "react": "*"
+    }
+  }
+  

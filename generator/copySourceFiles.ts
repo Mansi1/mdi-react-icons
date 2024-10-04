@@ -2,18 +2,42 @@ import ngFetch from 'ng-fetch';
 import * as path from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import { copyPathOrFile } from 'st-cp';
-
+import packageJsonTemplate from './package-template.json';
+import { DEFAULT_KEYWORDS_V4, DEFAULT_KEYWORDS_V5, Package } from './config';
 export type CopySoureFilesOptions = {
-  packageName: string;
+  packageInfo: Package & {
+    keywords: string[];
+    peerDependencies: Record<string, string>;
+  };
   sourcePath: string;
   distPath: string;
 };
 
 export const copySoureFiles = ({
+  packageInfo,
   sourcePath,
   distPath,
 }: CopySoureFilesOptions) => {
-  copyPathOrFile(path.join(sourcePath, 'README.md'), {
+  const packageJson = {
+    ...packageJsonTemplate,
+    name: packageInfo.name,
+    keywords: packageInfo.keywords,
+    version: packageInfo.version,
+  };
+
+  Object.entries(packageInfo.peerDependencies).forEach(([key, value]) => {
+    packageJson.peerDependencies[key] = value;
+  });
+
+  const packageJsonPath = path.join(distPath, 'package.json');
+  writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+  console.log(`- copied to ${packageJsonPath}`);
+  copyPathOrFile(path.join(sourcePath, 'assets'), {
+    path: distPath,
+    isDirectory: true,
+  });
+
+  /* copyPathOrFile(path.join(sourcePath, 'README.md'), {
     path: path.join(distPath, 'README.md'),
     isDirectory: false,
   });
@@ -30,7 +54,7 @@ export const copySoureFiles = ({
   copyPathOrFile(path.join(__dirname, '..', 'LICENSE'), {
     path: path.join(distPath, 'LICENSE'),
     isDirectory: false,
-  });
+  });*/
 };
 
 interface PackageInfo {
