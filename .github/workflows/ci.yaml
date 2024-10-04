@@ -13,11 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 12.x
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: 'node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}          
@@ -28,12 +28,12 @@ jobs:
       - name: tar files material-ui v5
         run: tar -cvf dist_v5.tar dist_v5
       - name: Add artifact to github
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: material-ui-v4
           path: dist_v4.tar
       - name: Add artifact to github
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: material-ui-v5
           path: dist_v5.tar
@@ -44,12 +44,12 @@ jobs:
     # only on master
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 12.x
       - name: Download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: material-ui-v4
       - name: untar files
@@ -70,12 +70,12 @@ jobs:
     # only on master
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 12.x
       - name: Download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: material-ui-v5
       - name: untar files
@@ -95,16 +95,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 12.x
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: 'demo/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('demo/yarn.lock') }}
       - name: Download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: material-ui-v4
       - name: untar files
