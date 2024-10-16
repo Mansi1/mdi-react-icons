@@ -1,7 +1,10 @@
 name: Node CI
 
 on: 
+  push:
   pull_request:
+  schedule:
+    - cron: '0 23 * * 0'
 
 permissions:
   contents: write
