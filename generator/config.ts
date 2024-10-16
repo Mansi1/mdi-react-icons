@@ -84,7 +84,6 @@ export const DEFAULT_KEYWORDS_V4 = [
   'icon resources',
 ];
 const config: Array<IconConfig> = [
-  /*
   {
     name: 'Material Design Icons',
     packageV4: {
@@ -101,7 +100,7 @@ const config: Array<IconConfig> = [
     svgPath: 'svg',
     repoFolderName: 'mat',
     addMeta: matAddMeta,
-  },
+  } /*
   {
     name: 'Bootstrap Icons',
     packageV4: {
@@ -183,7 +182,7 @@ const config: Array<IconConfig> = [
     svgPath: 'icons',
     repoFolderName: 'lucide',
     addMeta: lucideMeta,
-  },*/
+  },
   {
     name: 'Tabler Icons',
     packageV4: {
@@ -199,7 +198,7 @@ const config: Array<IconConfig> = [
     svgPath: 'icons',
     repoFolderName: 'tabler',
     addMeta: tablerMeta,
-  },
+  },*/,
   {
     name: 'boxicons',
     packageV4: {
@@ -210,7 +209,6 @@ const config: Array<IconConfig> = [
       name: '@mui-extra/icons-bx',
       version: '0.0.1',
     },
-
     gitUrl: 'https://github.com/atisawd/boxicons.git',
     rawUrl: 'https://raw.githubusercontent.com/atisawd/boxicons/master/',
     svgPath: 'svg',

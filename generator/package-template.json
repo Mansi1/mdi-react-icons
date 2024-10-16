@@ -1,6 +1,4 @@
 {
-    "name": "todo",
-    "version": "todo",
     "keywords": [],
     "publishConfig": {
       "access": "public"

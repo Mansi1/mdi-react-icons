@@ -3,7 +3,7 @@ import * as path from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import { copyPathOrFile } from 'st-cp';
 import packageJsonTemplate from './package-template.json';
-import { DEFAULT_KEYWORDS_V4, DEFAULT_KEYWORDS_V5, Package } from './config';
+import { Package } from './config';
 export type CopySoureFilesOptions = {
   packageInfo: Package & {
     keywords: string[];
@@ -37,24 +37,27 @@ export const copySoureFiles = ({
     isDirectory: true,
   });
 
-  /* copyPathOrFile(path.join(sourcePath, 'README.md'), {
-    path: path.join(distPath, 'README.md'),
-    isDirectory: false,
-  });
-
   copyPathOrFile(path.join(sourcePath, 'meta.json'), {
     path: path.join(distPath, 'meta.json'),
     isDirectory: false,
   });
 
-  copyPathOrFile(path.join(sourcePath, 'assets'), {
-    path: distPath,
-    isDirectory: true,
+  copyPathOrFile(path.join(sourcePath, 'info.json'), {
+    path: path.join(distPath, 'info.json'),
+    isDirectory: false,
   });
+
   copyPathOrFile(path.join(__dirname, '..', 'LICENSE'), {
     path: path.join(distPath, 'LICENSE'),
     isDirectory: false,
-  });*/
+  });
+
+  /* copyPathOrFile(path.join(sourcePath, 'README.md'), {
+    path: path.join(distPath, 'README.md'),
+    isDirectory: false,
+  });
+
+  */
 };
 
 interface PackageInfo {
@@ -85,7 +88,7 @@ const wait = async (milliseconds: number) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const retry = async (
+export const retry = async (
   type: string,
   fun: () => Promise<any> | any,
   tries: number = 0

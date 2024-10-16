@@ -7,6 +7,7 @@
   "scripts": {
     "clean-mat": "npx st-rm-rf dist dist_v4 dist_v5 src src_v4/meta.json src_v4/icons src_v5",
     "prebuild-mat": "yarn clean-mat",
+    "pretest": "rm -rf icons/dist && rm -rf icons/src",
     "test": "ts-node --project tsconfig.node.json generator/setup.ts",
     "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts  && tsc --project tsconfig.v4.json  && tsc --project tsconfig.v5.json",
     "postbuild-mat": "ts-node --project tsconfig.node.json generator/copyPackage.ts"

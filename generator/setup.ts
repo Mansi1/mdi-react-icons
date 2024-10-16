@@ -6,7 +6,10 @@ import * as crypto from 'crypto';
 
 import { join, relative } from 'path';
 
-import ICON_CONFIG, { DEFAULT_KEYWORDS_V4 } from './config';
+import ICON_CONFIG, {
+  DEFAULT_KEYWORDS_V4,
+  DEFAULT_KEYWORDS_V5,
+} from './config';
 
 import {
   readdirSync,
@@ -14,12 +17,12 @@ import {
   writeFileSync,
   mkdirSync,
   readFileSync,
-  rmdirSync,
 } from 'fs';
 import { compileIcons } from './compile';
 import { getSvg } from './ getSvg';
 import { IconConfig, SvgMeta } from './config';
 import { copySoureFiles } from './copySourceFiles';
+import { getHistory } from './download';
 const git = simpleGit();
 
 export const RESPOSITORY_FOLDER = join(__dirname, '..', 'icons', 'repository');
@@ -261,8 +264,20 @@ const setup = async () => {
     //saving info and build time
     const metaJson = JSON.stringify(icons, null, 2);
 
-    const contentHash = crypto.createHash('md5').update(metaJson).digest('hex');
-    const build = new Date().toISOString();
+    const info = JSON.stringify(
+      {
+        contentHash: crypto.createHash('md5').update(metaJson).digest('hex'),
+        build: new Date().toISOString(),
+      },
+      null,
+      2
+    );
+
+    const registerInfoV4 = await getHistory(config.packageV4.name);
+    const registerInfoV5 = await getHistory(config.packageV5.name);
+    console.log({ registerInfoV4, registerInfoV5 });
+    writeFileSync(join(projectFolderV4, 'info.json'), info);
+    writeFileSync(join(projectFolderV5, 'info.json'), info);
 
     writeFileSync(join(projectFolderV4, 'meta.json'), metaJson);
     writeFileSync(join(projectFolderV5, 'meta.json'), metaJson);
@@ -270,6 +285,7 @@ const setup = async () => {
     console.log('- start compiling');
     const distPathV4 = join(DIST_FOLDER, `v4`, config.repoFolderName);
     const distPathV5 = join(DIST_FOLDER, `v5`, config.repoFolderName);
+
     compileIcons(projectFolderV4, distPathV4);
     compileIcons(projectFolderV5, distPathV5);
 
@@ -282,6 +298,17 @@ const setup = async () => {
       },
       sourcePath: projectFolderV4,
       distPath: distPathV4,
+    });
+
+    copySoureFiles({
+      packageInfo: {
+        name: config.packageV5.name,
+        keywords: [config.name, ...DEFAULT_KEYWORDS_V5],
+        peerDependencies: { '@material-ui/core': '^5.0.0' },
+        version: config.packageV5.version,
+      },
+      sourcePath: projectFolderV5,
+      distPath: distPathV5,
     });
   }
 };
