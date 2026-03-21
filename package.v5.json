@@ -23,6 +23,13 @@
   "bugs": {
     "url": "https://github.com/Mansi1/mdi-react-icons/issues"
   },
+  "exports": {
+    "./*": {
+      "types": "./types/*.d.ts",
+      "import": "./esm/*.js",
+      "require": "./cjs/*.js"
+    }
+  },
   "peerDependencies": {
     "@mui/material": "^5.2.8",
     "react": "*"

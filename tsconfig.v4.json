@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "outDir": "dist_v4",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "outDir": "dist_v4/types",
     "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
@@ -24,12 +20,6 @@
     "noEmit": false,
     "jsx": "react"
   },
-  "exclude": [
-    "node_modules",
-    "dist_v5",
-    "dist_v4"
-  ],
-  "include": [
-    "src_v4"
-  ]
+  "exclude": ["node_modules", "dist_v5", "dist_v4"],
+  "include": ["src_v4"]
 }

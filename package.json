@@ -1,22 +1,24 @@
 {
   "name": "mdi-react-icons",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "scripts": {
-    "clean": "npx st-rm-rf dist dist_v4 dist_v5 src src_v4 src_v5",
-    "prebuild-mat": "yarn clean",
-    "build-mat": "ts-node --project tsconfig.node.json generator/generate.ts  && tsc --project tsconfig.v4.json  && tsc --project tsconfig.v5.json",
+    "clean-gen": "st-rm-rf src_v4 src_v5",
+    "generate-icons": "yarn clean-gen && ts-node --project tsconfig.node.json generator/generate.ts",
+    "compile": "tsx build-rust.ts",
+    "build-mat": "yarn generate-icons && yarn compile ",
     "postbuild-mat": "ts-node --project tsconfig.node.json generator/copyPackage.ts"
   },
   "author": "Michael Mannseicher",
   "dependencies": {
     "@material-ui/core": "^4.0.0",
-    "@mui/material": "^5.2.8",
-    "st-cp": "^2.0.0-beta.2"
+    "@mui/material": "^5.2.8"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
+    "@swc/cli": "^0.8.0",
+    "@swc/core": "^1.15.18",
     "@types/mustache": "^4.0.1",
     "@types/node": "^14.11.2",
     "@types/react": "^16.9.50",
@@ -25,7 +27,10 @@
     "ng-fetch": "^1.0.5",
     "node": "^14.13.0",
     "react": "15.6.2",
+    "st-cp": "^2.0.0-beta.2",
+    "st-rm-rf": "^2.0.0-beta.1",
     "ts-node": "^9.0.0",
+    "tsx": "^4.21.0",
     "typescript": "^4.0.3",
     "xml2js": "^0.4.23"
   }

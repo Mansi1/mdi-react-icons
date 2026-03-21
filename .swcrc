@@ -1,0 +1,27 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic"
+      }
+    },
+    "target": "es2022",
+    "preserveAllComments": false,
+    "minify": {
+      "compress": {
+        "unused": true,
+        "dead_code": true
+      },
+      "format": {
+        "comments": false
+      }
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}
