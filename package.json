@@ -4,8 +4,8 @@
   "packageManager": "yarn@1.22.22",
   "scripts": {
     "clean-gen": "st-rm-rf src_v4 src_v5",
-    "generate-icons": "yarn clean-gen && tsx --tsconfig tsconfig.node.json generator/generate.ts",
-    "compile": "tsx build-rust.ts",
+    "generate-icons": "yarn clean-gen && tsx generator/generate.ts",
+    "compile": "tsx generator/build-rust.ts",
     "build-mat": "yarn generate-icons && yarn compile",
     "postbuild-mat": "tsx generator/copyPackage.ts"
   },
@@ -13,6 +13,7 @@
   "dependencies": {
     "@material-ui/core": "^4.0.0",
     "@mui/material": "^5.2.8",
+    "@swc/helpers": "^0.5.20",
     "@types/node": "^25.5.0",
     "node": "^25.8.2"
   },
