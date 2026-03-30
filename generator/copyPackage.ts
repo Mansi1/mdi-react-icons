@@ -1,31 +1,32 @@
 import ngFetch from 'ng-fetch';
-import * as path from 'path';
+import { join } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import { copyPathOrFile } from 'st-cp';
 
 interface PackageInfo {
   'dist-tags': { latest: string };
+  'versions': Record<string, any>
 }
 
 const V4_PACKAGE_NAME = '@material-ui-extra/icons';
-const V4_SOURCE_PATH = path.join(__dirname, '..', 'src_v4');
-const V4_PACKAGE_MATERIAL_UI_PATH = path.join(
+const V4_SOURCE_PATH = join(__dirname, '..', 'src_v4');
+const V4_PACKAGE_MATERIAL_UI_PATH = join(
   __dirname,
   '..',
   'package.v4.json'
 );
-const V4_DIST_PATH = path.join(__dirname, '..', 'dist_v4');
-const V4_README = path.join(__dirname, '..', 'README_V4.md');
+const V4_DIST_PATH = join(__dirname, '..', 'dist_v4');
+const V4_README = join(__dirname, '..', 'README_V4.md');
 
 const V5_PACKAGE_NAME = '@mui-extra/icons';
-const V5_SOURCE_PATH = path.join(__dirname, '..', 'src_v5');
-const V5_PACKAGE_MATERIAL_UI_PATH = path.join(
+const V5_SOURCE_PATH = join(__dirname, '..', 'src_v5');
+const V5_PACKAGE_MATERIAL_UI_PATH = join(
   __dirname,
   '..',
   'package.v5.json'
 );
-const V5_DIST_PATH = path.join(__dirname, '..', 'dist_v5');
-const V5_README = path.join(__dirname, '..', 'README_V5.md');
+const V5_DIST_PATH = join(__dirname, '..', 'dist_v5');
+const V5_README = join(__dirname, '..', 'README_V5.md');
 
 const wait = async (milliseconds: number) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -61,14 +62,22 @@ const copy = async (
     `https://registry.npmjs.org/${packageName}`
   );
   const info: PackageInfo = JSON.parse(packageResponse.response.toString());
+
   const latestPackageVersion = info['dist-tags'].latest;
+
+  const packageVersionParts = distPath.split('_')
+  const packageVersion = packageVersionParts[packageVersionParts.length -1]
+
+  writeFileSync(packageVersion+'_info.json',JSON.stringify(info,null,2))
+
   const versionResponse = await ngFetch(
     `https://unpkg.com/${packageName}@${latestPackageVersion}/version.json`
   );
+
   const latestVersionJSON = JSON.parse(versionResponse.response.toString());
 
   const currentVersionJSON = JSON.parse(
-    readFileSync(path.join(sourcePath, 'version.json')).toString()
+    readFileSync(join(sourcePath, 'version.json')).toString()
   );
   const isNewVersion =
     currentVersionJSON.contentHash !== latestVersionJSON.contentHash ||
@@ -86,30 +95,34 @@ const copy = async (
   packageJSON.version = newPackageVersion;
 
   writeFileSync(
-    path.join(distPath, 'package.json'),
+    join(distPath, 'package.json'),
     JSON.stringify(packageJSON, null, 2)
   );
   copyPathOrFile(readmeSourcePath, {
-    path: path.join(distPath, 'README.md'),
+    path: join(distPath, 'README.md'),
     isDirectory: false,
   });
-  copyPathOrFile(path.join(sourcePath, 'version.json'), {
-    path: path.join(distPath, 'version.json'),
+  copyPathOrFile(join(sourcePath, 'version.json'), {
+    path: join(distPath, 'version.json'),
     isDirectory: false,
   });
-  copyPathOrFile(path.join(sourcePath, 'meta.json'), {
-    path: path.join(distPath, 'meta.json'),
+  copyPathOrFile(join(sourcePath, 'meta.json'), {
+    path: join(distPath, 'meta.json'),
     isDirectory: false,
   });
-  copyPathOrFile(path.join(sourcePath, 'assets'), {
+  copyPathOrFile(join(sourcePath, 'assets'), {
     path: distPath,
     isDirectory: true,
   });
-  copyPathOrFile(path.join(__dirname, '..', 'LICENSE'), {
-    path: path.join(distPath, 'LICENSE'),
+  copyPathOrFile(join(__dirname, '..', 'LICENSE'), {
+    path: join(distPath, 'LICENSE'),
     isDirectory: false,
   });
+
+  const esmPackageJson = join(distPath, 'esm', 'package.json');
+  writeFileSync(esmPackageJson, JSON.stringify({ type: 'module' }, null, 2));
 };
+
 (async () => {
   await retry('copy_v4', async () => {
     await copy(
@@ -126,7 +139,7 @@ const copy = async (
       V5_DIST_PATH,
       V5_SOURCE_PATH,
       V5_PACKAGE_NAME,
-      V5_PACKAGE_MATERIAL_UI_PATH,
+      V5_PACKAGE_MATERIAL_UI_PATH, 
       V5_README
     );
   });

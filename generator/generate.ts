@@ -1,9 +1,9 @@
-import { get } from "https";
-import { mkdirSync, readFileSync, writeFileSync } from "fs";
-import { join, relative } from "path";
-import { parseString } from "xml2js";
-import { render } from "mustache";
-import * as crypto from "crypto";
+import { get } from 'https';
+import { mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { join, relative } from 'path';
+import { parseString } from 'xml2js';
+import { render } from 'mustache';
+import * as crypto from 'crypto';
 
 interface IconMustacheViewData extends IconData {
   iconClassName: string;
@@ -35,32 +35,33 @@ export interface IconData {
   tags: string[];
   author: string;
   version: string;
-  iconCreateName: string | undefined;
-  iconAliasCreateNames: Array<string>;
+  iconCreateName: string;
+  fileName: string;
+  iconAliasCreateNames: Array<{name: string; file: string}>;
 }
 
 export const iife = <T>(fun: () => T): T => fun();
 
 export const renderIconV4 = (viewData: IconMustacheViewData) => {
-  const templatePath = join(__dirname, "icon-template-v4.mustache");
-  const templateString = readFileSync(templatePath).toString("utf8");
+  const templatePath = join(__dirname, 'icon-template-v4.mustache');
+  const templateString = readFileSync(templatePath).toString('utf8');
   return render(templateString, viewData);
 };
 export const renderIconV5 = (viewData: IconMustacheViewData) => {
-  const templatePath = join(__dirname, "icon-template-v5.mustache");
-  const templateString = readFileSync(templatePath).toString("utf8");
+  const templatePath = join(__dirname, 'icon-template-v5.mustache');
+  const templateString = readFileSync(templatePath).toString('utf8');
   return render(templateString, viewData);
 };
 
 export const renderAliasIcon = (viewData: IconAliasMustacheViewData) => {
-  const templatePath = join(__dirname, "icon-alias-template.mustache");
-  const templateString = readFileSync(templatePath).toString("utf8");
+  const templatePath = join(__dirname, 'icon-alias-template.mustache');
+  const templateString = readFileSync(templatePath).toString('utf8');
   return render(templateString, viewData);
 };
 
-export const renderAllIcon = (viewData: IconAllMustacheViewData) => {
-  const templatePath = join(__dirname, "icon-all.mustache");
-  const templateString = readFileSync(templatePath).toString("utf8");
+export const renderIndex = (viewData: IconAllMustacheViewData) => {
+  const templatePath = join(__dirname, 'index-js.mustache');
+  const templateString = readFileSync(templatePath).toString('utf8');
   return render(templateString, viewData);
 };
 
@@ -69,9 +70,9 @@ const download = async (url: string): Promise<string> => {
     const data: Array<string> = [];
     get(url, (response) => {
       response
-        .on("data", (append) => data.push(append))
-        .on("end", () => resolve(data.join("")));
-    }).on("error", reject);
+        .on('data', (append) => data.push(append))
+        .on('end', () => resolve(data.join('')));
+    }).on('error', reject);
   });
 };
 const wait = async (milliseconds: number) => {
@@ -88,7 +89,7 @@ const retry = async <T>(
   try {
     return await fun();
   } catch (error) {
-    console.error("Error in retry (" + tries + ") " + type);
+    console.error('Error in retry (' + tries + ') ' + type);
     if (tries < 5) {
       await wait(100);
       return await retry(type, fun, tries + 1);
@@ -100,23 +101,23 @@ const retry = async <T>(
 const getMetaDataJSON = async () => {
   return JSON.parse(
     await download(
-      "https://raw.githubusercontent.com/Templarian/MaterialDesign/master/meta.json",
+      'https://raw.githubusercontent.com/Templarian/MaterialDesign/master/meta.json',
     ),
   );
 };
-const V4_SRC_PATH = join(__dirname, "..", "src_v4");
-const V4_PROJECT_PACKAGE_JSON = join(__dirname, "..", "package.json");
-const V4_ASSETS_PATH = join(V4_SRC_PATH, "assets");
-const V4_METADATA_JSON = join(V4_SRC_PATH, "meta.json");
-const V4_VERSION = join(V4_SRC_PATH, "version.json");
-const V4_ICONS_PATH = join(V4_SRC_PATH, "icons");
+const V4_SRC_PATH = join(__dirname, '..', 'src_v4');
+const V4_PROJECT_PACKAGE_JSON = join(__dirname, '..', 'package.json');
+const V4_ASSETS_PATH = join(V4_SRC_PATH, 'assets');
+const V4_METADATA_JSON = join(V4_SRC_PATH, 'meta.json');
+const V4_VERSION = join(V4_SRC_PATH, 'version.json');
+const V4_ICONS_PATH = join(V4_SRC_PATH, 'icons');
 
-const V5_SRC_PATH = join(__dirname, "..", "src_v5");
-const V5_PROJECT_PACKAGE_JSON = join(__dirname, "..", "package.json");
-const V5_ASSETS_PATH = join(V5_SRC_PATH, "assets");
-const V5_METADATA_JSON = join(V5_SRC_PATH, "meta.json");
-const V5_VERSION = join(V5_SRC_PATH, "version.json");
-const V5_ICONS_PATH = join(V5_SRC_PATH, "icons");
+const V5_SRC_PATH = join(__dirname, '..', 'src_v5');
+const V5_PROJECT_PACKAGE_JSON = join(__dirname, '..', 'package.json');
+const V5_ASSETS_PATH = join(V5_SRC_PATH, 'assets');
+const V5_METADATA_JSON = join(V5_SRC_PATH, 'meta.json');
+const V5_VERSION = join(V5_SRC_PATH, 'version.json');
+const V5_ICONS_PATH = join(V5_SRC_PATH, 'icons');
 
 mkdirSync(V4_ASSETS_PATH, { recursive: true });
 mkdirSync(V4_ICONS_PATH, { recursive: true });
@@ -142,25 +143,26 @@ const getSvgPath = async (svgStr: string) => {
       }
     });
   });
-  return data.svg.path.map((p: any) => p["$"].d);
+  return data.svg.path.map((p: any) => p['$'].d);
 };
-export const createIconName = (rawName: string) => {
-  let prefix = "";
+export const createIconName = (rawName: string): [string, string] => {
+  let prefix = '';
   if (rawName.match(/^\d/)) {
-    //prefix = '_'
+    prefix = '_'
   }
-  return `${prefix}${rawName
-    .split("-")
+  const fileName = `${rawName
+    .split('-')
     .map((v: string) => v.substring(0, 1).toUpperCase() + v.substring(1))
-    .join("")}Icon`;
+    .join('')}Icon`
+  return [prefix +fileName, fileName];
 };
 const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
-  return retry("process " + metaData.name, async () => {
+  return retry('process ' + metaData.name, async () => {
     const url = `https://raw.githubusercontent.com/Templarian/MaterialDesign/master/svg/${metaData.name}.svg`;
     const assetsSVGFileV4 = join(V4_ASSETS_PATH, `${metaData.name}.svg`);
     const assetsSVGFileV5 = join(V5_ASSETS_PATH, `${metaData.name}.svg`);
 
-    const rawSVG = await retry("download " + metaData.name, async () =>
+    const rawSVG = await retry('download ' + metaData.name, async () =>
       download(url),
     );
     const svgPaths = await getSvgPath(rawSVG);
@@ -189,13 +191,14 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
       const renderedAlias = renderAliasIcon({
         ...data,
         originalIconName: iconClassName,
-        iconAliasClassName: aliasIconClassName,
+        iconAliasClassName: aliasIconClassName.name,
       });
 
-      const componentAliasFileName = `${aliasIconClassName}.tsx`;
+      const componentAliasFileName = `${aliasIconClassName.file}.tsx`;
       const componentAliasPathV4 = join(V4_ICONS_PATH, componentAliasFileName);
       const componentAliasPathV5 = join(V5_ICONS_PATH, componentAliasFileName);
-      componentAliasFileNames.push(aliasIconClassName);
+
+      componentAliasFileNames.push(aliasIconClassName.file);
       writeFileSync(componentAliasPathV4, renderedAlias);
       writeFileSync(componentAliasPathV5, renderedAlias);
     }
@@ -210,21 +213,22 @@ const downloadAndWrite = async (metaData: IconData): Promise<WriteIcon> => {
 };
 
 iife(async () => {
-  console.log("start material ui icons generation");
+  console.log('start material ui icons generation');
   const rawIcons: Array<IconData> = await getMetaDataJSON();
-  console.log("downloaded meta data");
+  console.log('downloaded meta data');
 
   for (let i = 0; i < rawIcons.length; i++) {
     const icon = rawIcons[i];
-    const iconCreateName = createIconName(icon.name);
+    const [iconCreateName, iconFileName] = createIconName(icon.name);
     if (!ICON_NAME_REGISTRY[iconCreateName.toLowerCase()]) {
       ICON_NAME_REGISTRY[iconCreateName.toLowerCase()] = true;
       icon.iconCreateName = iconCreateName;
+      icon.fileName = iconFileName
     } else {
       console.warn(
-        "Icon was ignored, because already exist with this name (" +
+        'Icon was ignored, because already exist with this name (' +
           iconCreateName +
-          ")",
+          ')',
       );
     }
   }
@@ -234,10 +238,10 @@ iife(async () => {
     const iconCreateNames = icon.aliases.map((name) => createIconName(name));
     const iconAliasCreateNames = [];
     for (let a = 0; a < iconCreateNames.length; a++) {
-      const iconName = iconCreateNames[a];
+      const [iconName, fileName] = iconCreateNames[a];
       if (!ICON_NAME_REGISTRY[iconName.toLowerCase()]) {
         ICON_NAME_REGISTRY[iconName.toLowerCase()] = true;
-        iconAliasCreateNames.push(iconName);
+        iconAliasCreateNames.push({name: iconName, file: fileName});
       }
     }
     icon.iconAliasCreateNames = iconAliasCreateNames;
@@ -249,7 +253,7 @@ iife(async () => {
   const createdIcons: Array<WriteIcon> = [];
   let downloaded = 0;
   for (const chunk of chunks) {
-    console.log(downloaded + "/" + totalSize + " downloaded files");
+    console.log(downloaded + '/' + totalSize + ' downloaded files');
 
     createdIcons.push(
       ...(await Promise.all(
@@ -258,7 +262,34 @@ iife(async () => {
     );
     downloaded += chunk.length;
   }
-  console.log(downloaded + "/" + totalSize + " downloaded files");
+  console.log(downloaded + '/' + totalSize + ' downloaded files');
+
+  // ... after the chunks loop finishes and createdIcons is full
+
+  console.log(
+    '📝 Generating All-Icon entry points for legacy compatibility...',
+  );
+
+  // 1. Prepare data for Mustache
+  const iconEntries = createdIcons.map((icon) => ({
+    name: icon.iconCreateName,
+    // We point to the local file in the same directory
+    importPath: `./${icon.iconCreateName}`,
+  }));
+
+  // If your mustache template expects separate lists for imports and usage:
+  const viewData: IconAllMustacheViewData = {
+    imports: iconEntries.map((i) => `import ${i.name} from '${i.importPath}';`),
+    icons: iconEntries.map((i) => i.name),
+  };
+
+  // 2. Render and Write for V4 and V5
+  const allIconContent = renderIndex(viewData);
+
+  writeFileSync(join(V4_ICONS_PATH, 'index.tsx'), allIconContent);
+  writeFileSync(join(V5_ICONS_PATH, 'index.tsx'), allIconContent);
+
+  console.log('✅ index.ts generated.');
 
   const metaJSON = JSON.stringify(createdIcons, null, 2);
   const { version: V4Version } = JSON.parse(
@@ -267,7 +298,7 @@ iife(async () => {
   const { version: V5Version } = JSON.parse(
     readFileSync(V5_PROJECT_PACKAGE_JSON).toString(),
   );
-  const contentHash = crypto.createHash("md5").update(metaJSON).digest("hex");
+  const contentHash = crypto.createHash('md5').update(metaJSON).digest('hex');
   const build = new Date().toISOString();
 
   writeFileSync(
@@ -290,5 +321,5 @@ iife(async () => {
 
   writeFileSync(V4_METADATA_JSON, metaJSON);
   writeFileSync(V5_METADATA_JSON, metaJSON);
-  console.log("generation done");
+  console.log('generation done');
 });

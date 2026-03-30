@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import createSvgIcon from "@material-ui/core/utils/createSvgIcon";
 
 /**
@@ -10,4 +10,5 @@ import createSvgIcon from "@material-ui/core/utils/createSvgIcon";
  * tags{{#tags}}
  * - {{{.}}} {{/tags}}
  */
-export default createSvgIcon(<>{{#paths}}<path d="{{{.}}}" />{{/paths}}</>, '{{iconClassName}}');
+export const {{iconClassName}} = createSvgIcon(<>{{#paths}}<path d="{{{.}}}" />{{/paths}}</>, '{{iconClassName}}');
+export default {{iconClassName}}

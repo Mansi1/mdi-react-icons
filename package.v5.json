@@ -1,6 +1,6 @@
 {
   "name": "@mui-extra/icons",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -23,11 +23,20 @@
   "bugs": {
     "url": "https://github.com/Mansi1/mdi-react-icons/issues"
   },
+  "sideEffects": false,
+  "main": "./index.js",
+  "module": "./esm/index.js",
+  "types": "./index.d.ts",
   "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./esm/index.js",
+      "require": "./index.js"
+    },
     "./*": {
-      "types": "./types/*.d.ts",
+      "types": "./*.d.ts",
       "import": "./esm/*.js",
-      "require": "./cjs/*.js"
+      "require": "./*.js"
     }
   },
   "peerDependencies": {

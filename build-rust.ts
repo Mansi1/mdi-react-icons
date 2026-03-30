@@ -11,7 +11,7 @@ async function runRustBuild(version: string) {
 
   const iconsSrc = path.join(process.cwd(), "src_" + version + "/icons");
   const esmDist = path.join(process.cwd(), "dist_" + version + "/esm");
-  const cjsDist = path.join(process.cwd(), "dist_" + version + "/cjs");
+  const cjsDist = path.join(process.cwd(), "dist_" + version + "/");
 
   console.log("🦀 Starting " + version + " Rust-powered build (SWC)...");
 
