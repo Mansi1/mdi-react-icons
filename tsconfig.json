@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "strict": false,
+    "declaration": true,
+    "noEmit": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "lib": ["dom", "es2017"],
+    "types": ["node"]
+  },
+  "include": ["generator"],
+  "exclude": ["dist_v4", "dist_v5", "src_v4", "src_v5", "node_modules"]
+}
