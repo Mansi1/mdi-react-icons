@@ -1,6 +1,6 @@
 {
   "name": "mdi-react-icons",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "packageManager": "yarn@1.22.22",
   "scripts": {
     "clean-gen": "st-rm-rf src_v4 src_v5",

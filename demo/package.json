@@ -10,6 +10,7 @@
     "prebuild": "mkdir -p node_modules/@material-ui-extra && mv ../dist_v4/assets public/assets && mv ../dist_v4 node_modules/@material-ui-extra/icons && node generate.js"
   },
   "dependencies": {
+    "@swc/helpers": "^0.5.20",
     "@date-io/core": "^1.x",
     "@material-ui/core": "^4.11.3",
     "@milkscout/react": "^1.0.34",
