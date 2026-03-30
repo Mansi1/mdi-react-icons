@@ -1,35 +1,24 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "outDir": "dist_v4",
+    "rootDir": "src_v4/icons",
     "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "declaration": true,
+    "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
-    "inlineSources": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "downlevelIteration": true,
-    "noEmit": false,
     "jsx": "react"
   },
-  "exclude": [
-    "node_modules",
-    "dist_v5",
-    "dist_v4"
-  ],
-  "include": [
-    "src_v4"
-  ]
+  "exclude": ["node_modules", "dist_v5", "dist_v4", "src_v4/assets"],
+  "include": ["src_v4/icons/*.tsx"]
 }
