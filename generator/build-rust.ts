@@ -4,8 +4,7 @@ import path from "path";
 
 // Paths must be absolute when changing CWD
 const swcBin = path.join(process.cwd(), "node_modules/.bin/swc");
-const swcConfigEsm = path.join(process.cwd(), ".swcrc");
-const swcConfigCjs = path.join(process.cwd(), ".swcrc-cjs");
+const swcConfig = path.join(process.cwd(), ".swcrc");
 
 async function runRustBuild(version: string) {
   const outDir = "dist_" + version;
@@ -16,7 +15,6 @@ async function runRustBuild(version: string) {
 
   console.log("🦀 Starting " + version + " Rust-powered build (SWC)...");
 
-  console.log(process.cwd())
   // 1. Clean
   if (existsSync(outDir)) {
     console.time("Clean Output Dir Duration");
@@ -32,7 +30,7 @@ async function runRustBuild(version: string) {
     // 2. Build ESM
     console.log("📦 Generating ESM (Flat)...");
     execSync(
-      `${process.execPath} ${swcBin} . -d ${esmDist} --config-file ${swcConfigEsm}`,
+      `${process.execPath} ${swcBin} . -d ${esmDist} --config-file ${swcConfig}`,
       {
         stdio: "inherit",
         cwd: iconsSrc, // 👈 This makes SWC treat the icons folder as the "root"
@@ -42,7 +40,7 @@ async function runRustBuild(version: string) {
     // 3. Build CJS (We override the module type for this pass)
     console.log("📦 Generating CJS (Flat)...");
     execSync(
-      `${process.execPath} ${swcBin} . -d ${cjsDist} --config-file ${swcConfigCjs}`,
+      `${process.execPath} ${swcBin} . -d ${cjsDist} --config-file ${swcConfig} -C module.type=commonjs`,
       {
         stdio: "inherit",
         cwd: iconsSrc, // 👈 Same here

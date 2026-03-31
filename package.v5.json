@@ -40,7 +40,6 @@
     }
   },
   "peerDependencies": {
-    "@swc/helpers": "^0.5.20",
     "@mui/material": "^5.2.8",
     "react": "*"
   }

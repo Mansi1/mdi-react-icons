@@ -2,6 +2,9 @@
   "name": "mdi-react-icons-demo",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
   "homepage": "https://mansi1.github.io/mdi-react-icons/",
   "scripts": {
     "clean": "npx st-rm-rf node_modules/@material-ui-extra public/assets",
@@ -10,7 +13,6 @@
     "prebuild": "mkdir -p node_modules/@material-ui-extra && mv ../dist_v4/assets public/assets && mv ../dist_v4 node_modules/@material-ui-extra/icons && node generate.js"
   },
   "dependencies": {
-    "@swc/helpers": "^0.5.20",
     "@date-io/core": "^1.x",
     "@material-ui/core": "^4.11.3",
     "@milkscout/react": "^1.0.34",
